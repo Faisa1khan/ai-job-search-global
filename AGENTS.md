@@ -8,12 +8,12 @@ This workspace is structured to manage job search activities, scraper tools, CVs
 
 ## Thin-Pointer Design (Single Source of Truth)
 
-To prevent duplication and configuration drift across different AI agent frameworks (Claude Code, Google Antigravity, Codex, Cursor, Gemini CLI, etc.), this workspace uses a unified thin-pointer design. All agent runtimes should load the canonical specifications and candidate profiles from the files and directories below:
-
-1. **Personal Candidate Profile:**
-   - The candidate profile, contact details, education, and target preferences are defined in [CLAUDE.md](CLAUDE.md) and the individual profile methodology files under [.claude/skills/job-application-assistant/](.claude/skills/job-application-assistant/) (specifically `01-*.md` etc.).
-2. **Canonical Workflow Specifications:**
-   - The step-by-step instructions and triggers for tasks (setup, scrape, rank, apply, upskill, interview) are defined in the [.claude/](.claude/) directory (specifically under `.claude/skills/` and `.claude/commands/`).
-   - Do not duplicate these rules or specifications. Treat `.claude/` files as the single source of truth.
-3. **Portal Search Skills:**
-   - Job-portal search CLIs live under [.agents/skills/](.agents/skills/) in the portable Agent Skills format (with a `SKILL.md` per portal). Codex and Antigravity discover these automatically; the `/scrape` workflow in [.claude/skills/job-scraper/](.claude/skills/job-scraper/) orchestrates them.
+All agent runtimes should load the canonical specifications and candidate profiles:
+1. **Master Resume Template:** `cv/Resume_Master.html`
+2. **Master Cover Letter Template:** `cover_letters/Cover_Letter_Master.html`
+3. **Mandatory 5-Gate Verification:**
+   - Gate 1: Exactly 1 page with ATS text layer (`verify_pdf.py`).
+   - Gate 2: Canvas fill and balanced margins (`verify_layout.py`).
+   - Gate 3: Master markup structure & CSS fidelity (`verify_template.py`).
+   - Gate 4: Zero prose dashes, zero banned AI words (`verify_humanizer.py`).
+   - Gate 5: Factual grounding (`verify_sot.py`).

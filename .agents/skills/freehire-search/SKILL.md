@@ -1,18 +1,7 @@
 ---
 name: freehire-search
-version: 1.0.0
-description: >
-  Use this skill to search live software / tech / data / engineering job listings
-  across many countries and markets (and remote) via the freehire.me aggregator's
-  public API, or to look up a specific posting. It aggregates roles from ~50 ATS
-  platforms into one schema, so a single skill covers many markets — but its faceted
-  filtering (skills, category, seniority) is tuned tech-first, so scope triggers to
-  technical roles. Trigger phrases: find a tech job, software job search, developer
-  jobs, engineering vacancies, data/ML jobs, DevOps roles, remote developer jobs,
-  "are there any <tech role> jobs in <place>", look up this freehire job posting.
-context: fork
-enabled: true  # set to false to keep this portal installed but have /scrape skip it
-allowed-tools: Bash(bun run .agents/skills/freehire-search/cli/src/cli.ts *)
+description: >-
+  Use this skill to search live software / tech / data / engineering job listings across many countries and markets (and remote) via the freehire.me aggregator's public API, or to look up a specific posting. It aggregates roles from ~50 ATS platforms into one schema, so a single skill covers many markets — but its faceted filtering (skills, category, seniority) is tuned tech-first, so scope triggers to technical roles. Trigger phrases: find a tech job, software job search, developer jobs, engineering vacancies, data/ML jobs, DevOps roles, remote developer jobs, "are there any <tech role> jobs in <place>", look up this freehire job posting.
 ---
 
 # freehire Search Skill

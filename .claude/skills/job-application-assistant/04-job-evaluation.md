@@ -30,6 +30,26 @@ If the candidate's permit also constrains *hours* or *start date* (a student vis
 
 A role that fails this gate is not scored and not drafted. Everything below applies only to roles that pass it.
 
+### India Eligibility Classification for Global-Remote Roles
+
+For all global-remote and international opportunities, India eligibility must be strictly classified into one of four confidence levels:
+
+| Classification | Definition & Criteria |
+|---|---|
+| **CONFIRMED** | • The job posting **explicitly states** worldwide / global / India hiring allowed, OR<br>• The company's published employment/careers policy **explicitly confirms** hiring in India. |
+| **LIKELY** | • Strong verifiable evidence of India hiring exists (e.g. established Indian engineering hubs / active international contractor engagements), but the specific posting does not explicitly mention it. |
+| **UNCLEAR** | • The posting lists generic "Remote" or "Worldwide" without clear country eligibility bounds. |
+| **EXCLUDED** | • Explicit US / EU / local country residency, citizenship, work authorization, or incompatible timezone requirements are stated. |
+
+#### Strict Evaluation Rules:
+1. **NEVER upgrade `LIKELY` or `UNCLEAR` to `CONFIRMED` based solely on:**
+   - ATS platform (e.g., Greenhouse, Ashby, Lever)
+   - Mentions of Deel / Remote.com / EOR in generic company descriptions
+   - LinkedIn employee location searches
+   - Generic company reputation or "remote-friendly" branding
+   - Inferred EOR availability without explicit verification
+2. **Separate Presentation Rule:** In all `/rank` tables and reports, **show the India eligibility confidence level separately from the numerical fit score**.
+
 ## Language Gate — run before scoring
 
 This gate checks a posting's language requirements against what the candidate actually speaks. It is not one of the five Scoring Dimensions below - it runs before them, structured the same way as the Eligibility Gate above: read the posting, classify against profile data, and treat a hard mismatch as FAIL before scoring. Its verdict is tracked downstream: `/rank` records the result as `language_gate` (PASS/FAIL/FLAG) with a supporting `language_note`, persists both into `seen_jobs.json`, and treats a FAIL as a shortlist veto; `/scrape` surfaces the flag in its results table and carries a language-override rule for postings whose ad language differs from the role's working language. `/apply`'s language detection (Step 1, which extracts a posting's required language generically) feeds this same check.
@@ -60,9 +80,9 @@ How well do the required/preferred skills align with the candidate's capabilitie
 | 40-59 | Partial match, significant upskilling needed |
 | 0-39 | Fundamental mismatch |
 
-**Strong match areas:** [YOUR_PRIMARY_SKILLS]
-**Moderate match areas:** [YOUR_SECONDARY_SKILLS]
-**Weak match areas:** [SKILLS_YOU_LACK]
+**Strong match areas:** React (React 19), TypeScript, JavaScript, Next.js (App Router/RSC), Redux Toolkit, Tailwind CSS, Frontend System Design, Enterprise SaaS UI, State Machines, Multi-Tenant Architecture, Playwright, Vitest.
+**Moderate match areas:** Node.js, Supabase, PostgreSQL, Drizzle ORM, REST APIs, Model Context Protocol (MCP), Gemini AI integration, legacy AngularJS migration.
+**Weak match areas:** Native Mobile (Swift/Kotlin), Deep Kubernetes/DevOps infrastructure, Java/C++/Go distributed backend microservices.
 
 ### 2. Experience Match (0-100)
 Does work history align with what they're looking for? Match on the function and nature of the work performed, not the literal job title - a "Data Consultant" and a "Data Scientist" role can be functionally identical.
@@ -74,9 +94,9 @@ Does work history align with what they're looking for? Match on the function and
 | 40-59 | Adjacent experience, would need to make the case |
 | 0-39 | Unrelated experience |
 
-**Strong:** [YOUR_DIRECT_EXPERIENCE_DOMAINS]
-**Moderate:** [YOUR_ADJACENT_EXPERIENCE]
-**Entry-level:** [ROLES_WITH_LIMITED_EXPERIENCE]
+**Strong:** Senior Frontend Engineer / Product Engineer in B2B SaaS, HRMS, Payroll & Statutory Compliance, Multi-tenant Web Applications.
+**Moderate:** Full-stack Engineer (Frontend-leaning Node/PostgreSQL/Supabase), Frontend AI Tooling Engineer.
+**Entry-level:** Core Backend Engineer (Go/Java), DevOps / Cloud Platform Engineer.
 
 ### 3. Behavioral/Culture Fit (0-100)
 Does the role and company culture match the behavioral profile?
@@ -91,9 +111,9 @@ Does the role and company culture match the behavioral profile?
 **Red flags to research:** Department disorganization, work dominated by maintenance over development, poor chemistry with leadership, culture mismatches. Check reviews, media coverage, LinkedIn connections, and network contacts for insider perspective.
 
 ### 4. Location & Logistics (Pass/Fail + Notes)
-- Within commute range: PASS
-- Remote with occasional office: PASS
-- Requires relocation: FAIL (deal-breaker)
+- Within commute range: PASS (Local / Remote)
+- Remote with occasional office / Fully remote: PASS
+- Requires relocation: FAIL (unless exceptional international offer with visa sponsorship)
 - Frequent international travel: FLAG (discuss with user)
 
 ### 5. Career Alignment & Motivation (0-100)
@@ -107,19 +127,19 @@ Does this role advance career goals and contain tasks that energize?
 | 0-39 | Dead end or backwards step |
 
 **Career goals:**
-- [YOUR_CAREER_GOAL_1]
-- [YOUR_CAREER_GOAL_2]
-- [YOUR_CAREER_GOAL_3]
+- Target Senior / Staff Frontend Engineer or Lead Product Engineer roles in high-impact product SaaS or AI companies.
+- Lead modern frontend architecture, design systems, and developer experience.
+- Deepen AI agent integration (MCP, agentic UI, Gemini) within production applications.
 
 **Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energize* you. Consider:
-- Tasks that energize: [YOUR_ENERGIZING_TASKS]
-- Tasks that drain: [YOUR_DRAINING_TASKS]
-- Non-task factors: leadership style, department culture, company values, degree of autonomy
+- Tasks that energize: Architecting complex UI states, building reusable component libraries, AI agent integration (MCP/Gemini), optimizing web performance, writing tests & ADRs.
+- Tasks that drain: Unstructured cowboy coding without reviews, maintaining legacy stacks indefinitely without modernization paths.
+- Non-task factors: High engineering autonomy, product-driven roadmap, supportive collaborative culture.
 
 **Life situation alignment:** Consider personal constraints:
-- **Security**: [YOUR_FINANCIAL_SITUATION_CONTEXT]
-- **Flexibility**: [YOUR_SCHEDULE_CONSTRAINTS]
-- **Professional development**: [YOUR_GROWTH_PRIORITIES]
+- **Security**: Market-competitive compensation for senior frontend roles.
+- **Flexibility**: Remote or hybrid (Local / Remote).
+- **Professional development**: Continuous mastery of modern web standards, React 19, TypeScript, and AI-native application architectures.
 
 ### 6. Salary Benchmark (Optional)
 

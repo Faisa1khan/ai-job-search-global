@@ -6,11 +6,14 @@ bun.lock
 __pycache__/
 *.pyc
 *.pyo
+*.egg-info/
 .venv/
 venv/
 
 # Compiled documents
 *.pdf
+!cv/Resume_*.pdf
+!cover_letters/Cover_Letter_*.pdf
 *.aux
 *.log
 *.out
@@ -117,3 +120,14 @@ company_research/*.json
 
 # Brainstorm mockups (superpowers visual companion) - never ship
 .superpowers/
+
+# Local persistent storage
+!job_search_tracker.csv
+!job_scraper/seen_jobs.json
+!job_search_tracker.csv
+scratch/
+*_answer*.txt
+quick_answer*.txt
+seo_analytics_answer*.txt
+ai_tooling_answer*.txt
+

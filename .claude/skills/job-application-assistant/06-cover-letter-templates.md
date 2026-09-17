@@ -4,21 +4,32 @@ framework_version: 1.0.2
 
 # Cover Letter Templates and Tailoring Guide
 
-## Template: Custom cover.cls (XeLaTeX)
+<!-- ACTIVE-TEMPLATE
+extension: .html
+compile_command: google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=cover_letters/Cover_Letter_<Company>.pdf cover_letters/Cover_Letter_<Company>.html
+target_pages: 1
+-->
 
-Cover letters use a custom LaTeX document class (`cover.cls`) with Lato/Raleway fonts.
+## Locked Unified Typography & Document System (STRICT RULE)
 
-**Output file:** `cover_letters/cover_<company>_<role>.tex`
-**Compile with:** XeLaTeX (cover.cls requires fontspec)
-**Font directory:** `cover_letters/OpenFonts/fonts/`
+The cover letter belongs to the exact same visual document system as the master resume:
+- **Canonical Typography Source of Truth:** `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif` (matching `the source product's resume-view component`).
+- **Visual Reference Render:** `cover_letters/Cover_Letter_Nuaav.html` $\to$ `cover_letters/Cover_Letter_Nuaav.pdf` (1 page, letter format).
 
-### Compile command
-
-```bash
-cd cover_letters && xelatex -interaction=nonstopmode cover_<company>_<role>.tex
-```
-
-Expected output: `Output written on cover_<company>_<role>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
+### Strict Directives for All Future Applications:
+1. **Identical Font Family:** Must use the system font stack `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`. Do not use separate LaTeX fonts (e.g. Raleway/Lato).
+2. **Identical Header Hierarchy:** Centered uppercase name (`ALEX DOE`, 1.75rem, bold), bullet-separated contact line (`#444`, with `·`), location (`#666`), and a 2px solid bottom divider (`#111`).
+3. **Identical Bullet & Emphasis Styling:** `–` pseudo-elements with `font-weight: 700; color: #666;` and bold emphasis in `color: #0f172a; font-weight: 600;`.
+4. **Strict Output Filename Standard:** For every application, output filenames must strictly follow:
+   - PDF: `cover_letters/Cover_Letter_<Company>.pdf`
+   - Source: `cover_letters/Cover_Letter_<Company>.html`
+   - `<Company>`: filesystem-safe (spaces $\to$ underscores, punctuation removed, preserving recognizable company name).
+   - NEVER include implementation prefixes or internal build tags like `main_`, `cover_`, or role strings.
+5. **Compile Command:**
+   ```bash
+   google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=cover_letters/Cover_Letter_<Company>.pdf cover_letters/Cover_Letter_<Company>.html
+   ```
+6. **Expected Page Count:** Exactly 1 page. Any overflow or page break onto page 2 is a failure that must be corrected.
 
 ## Compile-and-Inspect Loop (MANDATORY)
 

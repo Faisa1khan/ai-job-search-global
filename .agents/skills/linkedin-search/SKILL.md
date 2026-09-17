@@ -1,18 +1,7 @@
 ---
 name: linkedin-search
-version: 1.0.0
-description: >
-  Use this skill whenever the user wants to search for jobs in any location or
-  market, find job listings, or look up a specific job posting — in any country,
-  city, or remotely. Invoke for open positions, vacancies, and hiring across any
-  sector or role (software, data, design, marketing, finance, legal, operations,
-  etc.). The location is always supplied explicitly by the user. Trigger phrases:
-  find a job, job search, search for jobs, job openings, vacancies, hiring,
-  positions open, remote jobs, "are there any X jobs in <place>", look up this
-  job posting.
-context: fork
-enabled: true  # set to false to keep this portal installed but have /scrape skip it
-allowed-tools: Bash(bun run .agents/skills/linkedin-search/cli/src/cli.ts *)
+description: >-
+  Use this skill whenever the user wants to search for jobs in any location or market, find job listings, or look up a specific job posting — in any country, city, or remotely. Invoke for open positions, vacancies, and hiring across any sector or role (software, data, design, marketing, finance, legal, operations, etc.). The location is always supplied explicitly by the user. Trigger phrases: find a job, job search, search for jobs, job openings, vacancies, hiring, positions open, remote jobs, "are there any X jobs in <place>", look up this job posting.
 ---
 
 # LinkedIn Search Skill

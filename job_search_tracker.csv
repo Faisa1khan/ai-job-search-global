@@ -1,0 +1,2 @@
+date,company,sector,role,role_type,channel,status,contact_person,fit_rating,notes,cv_file,cover_letter_file,source,deadline
+2026-09-01,Acme Corp,Enterprise SaaS,Senior Frontend Engineer,Senior Frontend,linkedin,drafted,,95,"Tailored 1-page CV + Cover Letter on Master templates; 30d notice",cv/Resume_Acme_Corp.pdf,cover_letters/Cover_Letter_Acme_Corp.pdf,https://example.com/jobs/senior-frontend-engineer,

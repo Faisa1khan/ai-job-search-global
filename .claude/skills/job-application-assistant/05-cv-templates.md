@@ -4,23 +4,38 @@ framework_version: 1.4.4
 
 # CV Templates and Tailoring Guide
 
-<!-- SETUP: Profile statements and section ordering are personalized by running /setup -->
+<!-- ACTIVE-TEMPLATE
+extension: .html
+compile_command: google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=cv/Resume_<Company>.pdf cv/Resume_<Company>.html
+target_pages: 1
+-->
 
-## Template: LaTeX moderncv (Banking Style)
+## Locked Master Resume Design (STRICT CANONICAL RULE)
 
-All CVs use the moderncv LaTeX package with the "banking" style and "blue" color scheme.
+The resume visual design is permanently locked to the canonical HTML/React implementation:
+- **Canonical Design Source of Truth:** `the source product's resume-view component`
+- **Reference Output:** `cv/Resume_Nuaav.html` $\to$ `cv/Resume_Nuaav.pdf` (1 page, letter format).
 
-**Output file:** `cv/main_<company>_<role>.tex`
-**Compile with:** **lualatex** on MiKTeX/TeX Live. pdflatex often fails on modern MiKTeX installs with `fontawesome5` font-expansion errors; lualatex handles the same sources cleanly.
-**Master reference:** `cv/main_example.tex` (comprehensive CV with all competencies, experience, and achievements - use as source when building targeted CVs)
-
-### Compile command
-
-```bash
-cd cv && lualatex -interaction=nonstopmode main_<company>_<role>.tex
-```
-
-Expected output: `Output written on main_<company>_<role>.pdf (2 pages, ...)`. Any page count other than 2 is a failure that must be fixed before presenting to the user.
+### Strict Directives for All Future Applications:
+1. **NEVER redesign the resume.** Do NOT replace with LaTeX, ModernCV, or alternative templates.
+2. **NEVER remove or flatten in-line bold/highlighted keywords (`<strong>`).** Visual emphasis on technologies and high-value outcomes is intentional and mandatory.
+3. **NEVER change typography, spacing, section hierarchy, bullet style (`–`), layout, or 1-page format.**
+4. **NEVER modify the canonical design, spacing, or CSS to solve content overflow:** Adjust job-specific content conciseness and wording instead.
+5. **NEVER change layout to fit individual jobs.**
+6. **Future applications change CONTENT ONLY:** Tailor wording, evidence order, and keywords for each job while preserving the exact visual and DOM structure.
+7. **Selective Skills Highlighting:** Selectively bold ONLY the most relevant skills (`<strong>`) matching the specific job's requirements within each skill category (do NOT bold every skill; maintain clear visual contrast).
+8. **Visual Regression Check:** Compare against the approved reference `cv/Resume_Nuaav.html` $\to$ `cv/Resume_Nuaav.pdf`.
+9. **No Hallucinations:** Never invent skills, technologies, achievements, or responsibilities.
+10. **Strict Output Filename Standard:** For every application, output filenames must strictly follow:
+    - PDF: `cv/Resume_<Company>.pdf`
+    - Source: `cv/Resume_<Company>.html`
+    - `<Company>`: filesystem-safe (spaces $\to$ underscores, punctuation removed, preserving recognizable company name).
+    - NEVER include implementation prefixes or internal build tags like `main_`, `cover_`, or role strings.
+11. **Compile Command:**
+   ```bash
+   google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=cv/Resume_<Company>.pdf cv/Resume_<Company>.html
+   ```
+12. **Expected Page Count:** Exactly 1 page. Any page count other than 1 is a failure that must be corrected.
 
 ## Document Structure
 
@@ -136,12 +151,11 @@ When the role sits outside your home domain, **lead with the domain-transfer arg
 
 **Create 2-3 profile statement templates for your main role types:**
 
-<!-- SETUP: These are populated based on your background -->
-**For [YOUR_PRIMARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_1]
+**For Senior Frontend Engineer / Frontend Lead roles:**
+> Frontend Engineer with 6+ years building scalable, mission-critical enterprise SaaS applications (React, TypeScript, Next.js, Redux Toolkit). Deep domain specialization in multi-country HRMS, payroll computation, and statutory compliance across India, UAE, and Malaysia. Experienced in modernizing legacy architectures, building robust state machines, and shipping high-performance web products with strong test coverage (Playwright, Vitest).
 
-**For [YOUR_SECONDARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_2]
+**For Fullstack / Product Engineer / AI Application roles:**
+> Product-minded engineer with 6+ years specializing in modern React/Next.js/TypeScript frontends and fullstack architectures (Node.js, PostgreSQL, Supabase). Proven track record architecting multi-tenant platforms, AI agent knowledge systems (MCP, Gemini), and complex business workflows with strict architectural discipline (ADRs, state machines).
 
 Statements labeled *[Used for: <company>_<role>]* were extracted from archived application drafts by `/setup` Path A. They are **phrasing references, never fact sources**: when drafting from one, every factual claim still comes from `01-candidate-profile.md` - a past tailored draft does not vouch for its own accuracy.
 
@@ -274,10 +288,10 @@ Restore the highest-relevance item that was previously cut — a CV that ends mi
 Most employers run CVs through an ATS before a human sees them, and the ATS reads the PDF's embedded **text layer**, not the rendered page. A CV can pass visual inspection and still extract as garbage. After the layout passes the compile-and-inspect loop, verify the text layer:
 
 ```bash
-python tools/verify_pdf.py cv/main_<company>_<role>.pdf --dump-text cv/main_<company>_<role>.txt
+cd cv && pdftotext -layout -enc UTF-8 main_<company>_<role>.pdf main_<company>_<role>.txt
 ```
 
-Extraction tries **pypdf** first (`pip install pypdf`, BSD license), then Poppler `pdftotext`. If a fallback still uses `pdftotext -layout`, it must also pass `-enc UTF-8`: Xpdf-based builds default to Latin-1, which makes every non-ASCII character in a perfectly good CV read back as a replacement character. If neither extractor is available, skip the mechanical check with a warning and rely on the visual PDF read for keyword coverage.
+`pdftotext` comes from [poppler](https://poppler.freedesktop.org/), not the TeX distribution - it is an **optional** dependency. The `-enc UTF-8` flag is not optional: Xpdf-based `pdftotext` builds default to Latin-1 output, which makes every non-ASCII character in a perfectly good CV read back as a replacement character and fail the parseability check below for no real reason. If it is not installed, skip the mechanical check with a warning and rely on the visual PDF read for keyword coverage.
 
 What to check in the extraction:
 

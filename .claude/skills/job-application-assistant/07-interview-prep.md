@@ -14,47 +14,44 @@ Keep answers to 1-2 minutes. Be specific. End with what you learned or would do 
 
 ## Ready-Made STAR Examples
 
-<!-- These are populated by /setup from your actual experience. Below are templates showing the format. -->
+### 1. Multi-Country Payroll & Statutory Balancing (Complex Domain Engineering)
+**S:** Acme needed to calculate multi-country payroll across India, UAE, and Malaysia with strict statutory compliance (ESI, TDS, PF, PT, LWF, Bonus, Gratuity). In India, ESI calculations and gross salary balancing presented non-linear rounding dependencies.
+**T:** Own the frontend engineering and computation logic for payroll setup, salary registers, and statutory dependency workflows.
+**A:** Engineered a closed-form ESI balancing calculation and structured payroll computation logic handling complex CTC breakups, tax deductions, and multi-region reporting with robust data validation.
+**R:** Delivered reliable, error-free payroll calculations used by enterprise clients across India, UAE, and Malaysia; simplified statutory compliance and Form 16 reporting.
+**Use for:** "Tell me about a time you solved a complex technical or business problem", "How do you handle mission-critical financial / business logic?"
 
-### 1. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT - what was happening, what was the problem]
-**T:** [YOUR RESPONSIBILITY - what you specifically needed to do]
-**A:** [WHAT YOU DID - specific actions, tools, methods]
-**R:** [OUTCOME - measurable results, adoption, impact]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 2. Modernizing Legacy AngularJS to React (Architecture & Migration)
+**S:** Core admin workflows were built on legacy AngularJS, creating maintainability friction and slowing down feature delivery across Setup, L&D, Attendance, and Skill Matrix surfaces.
+**T:** Incrementally migrate and modernize employee and setup interfaces to React without causing regressions in active production operations.
+**A:** Built a coexistence strategy using Redux Toolkit, reusable shared UI components, and modular React surfaces that interfaced seamlessly alongside the legacy AngularJS shell.
+**R:** Improved developer velocity, maintainability, and user experience across major modules, enabling smooth ongoing transitions without downtime or platform rewrites.
+**Use for:** "Describe your experience with legacy migrations", "How do you modernize legacy code while keeping production stable?"
 
-### 2. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 3. AI-Assisted Recruitment & L&D Lifecycle (AI Integration)
+**S:** Recruitment and L&D teams spent significant manual effort parsing candidate resumes, screening candidates against job requirements, and creating job descriptions.
+**T:** Streamline candidate matching and job description generation within the HRMS application.
+**A:** Integrated Gemini AI into the recruitment and L&D workflows, building automated resume parsing, candidate-job matching algorithms, and automated JD generation tools directly into the frontend interface.
+**R:** Drastically accelerated recruiter screening workflows and enhanced employee skills matching within the platform.
+**Use for:** "How have you integrated AI into production web applications?", "Tell me about a feature you built that drove business productivity."
 
-### 3. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
-
-<!-- Add more STAR examples as needed. Aim for 4-6 covering different competencies. -->
+### 4. Project Nexus Multi-Tenant Booking SaaS (System Design & Rigor)
+**S:** Service businesses required a reliable, mobile-first appointment booking platform that managed both advance reservations and walk-in queues under multi-tenant isolation.
+**T:** Architect an independent, production-grade SaaS platform from scratch with high architectural discipline.
+**A:** Built Project Nexus with Next.js 16, React 19, TypeScript, Tailwind v4, Supabase (RLS), and Drizzle ORM. Designed an explicit booking state machine (`confirmed` $\to$ `checked-in` $\to$ `completed`), 15 modular feature directories, 30 Architecture Decision Records (ADRs), dual-language i18n, and 14 Playwright test suites.
+**R:** Delivered an end-to-end multi-tenant platform with automated testing, observability (Sentry), and comprehensive architectural documentation.
+**Use for:** "Walk me through a project you architected from scratch", "How do you ensure code quality and maintainability in large frontends?"
 
 ## Common Tough Questions
 
-### "Why did you leave [previous company]?"
-> [PREPARE YOUR ANSWER - be honest, forward-looking, no negativity about former employer]
+### "Why are you looking for a new opportunity?"
+> "I've spent over 6 years at Acme building deep domain expertise in multi-country HRMS, payroll, and complex frontend architectures. Having led major React modernizations, statutory engines, and AI integrations, I am looking to take on my next challenge—either as a Senior Frontend / Lead Product Engineer in a high-growth product SaaS or AI-driven company where I can drive large-scale web architecture."
 
-### "You don't have [specific skill/experience]."
-> [PREPARE YOUR ANSWER - acknowledge the gap, bridge to adjacent experience, show willingness to learn]
+### "How do you stay up-to-date with frontend and AI developments?"
+> "I actively build and ship independent open-source and SaaS projects. For example, I built Project Nexus on Next.js 16/React 19 with Tailwind v4, engineered `agy-orchestrator` (a multi-model coding CLI with review gates), and created Universal AI Brain using the Model Context Protocol (MCP) and telemetry."
 
 ### "Where do you see yourself in 5 years?"
-> [PREPARE YOUR ANSWER - show ambition aligned with the role's growth path]
-
-### "What's your biggest weakness?"
-> [PREPARE YOUR ANSWER - genuine weakness with concrete mitigation strategy]
-
-### "Why this company specifically?"
-> Customize per company. Must reference: specific projects, company values, market position, or team structure. Never give a generic answer.
+> "As a Staff Frontend Engineer or Engineering Lead driving frontend technical vision, design systems, and AI-native user interfaces for enterprise-grade SaaS products."
 
 ## Questions You Should Ask Interviewers
 

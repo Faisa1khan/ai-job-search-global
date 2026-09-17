@@ -130,6 +130,8 @@ export async function runSearch(opts: SearchOpts): Promise<number> {
     // agent context - so the lean mode strips them client-side either way.
     if (opts.includeDescription === false) {
       rows = rows.map((r) => ({ ...r, description: null }))
+    } else {
+      rows = rows.map((r) => ({ ...r, description: r.description ? r.description.slice(0, 1000) : null }))
     }
     const total = env.meta?.total ?? rows.length
 

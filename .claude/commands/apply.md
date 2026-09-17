@@ -95,28 +95,41 @@ Also read the most recent existing CV and cover letter files for concrete struct
 ### Requirement coverage (both documents)
 - **Every requirement the posting states gets addressed - matched or honestly gapped, never silently omitted.** A stated requirement the candidate lacks (a tool, a clearance, years of experience) is acknowledged with an honest bridge ("not in my daily toolkit yet; a natural extension of X"), because omission reads as hiding once an interviewer asks. Build the requirement list from Step 1 and check both drafts against it before Step 3.
 - **Engage nice-to-haves by name** where the profile supports honest adjacency (e.g. "conceptually aligned with <named tool>"), and use the posting's own term over a synonym wherever it is truthfully applicable - including in CV section headings (a posting hiring for "MLOps" should find a heading containing "MLOps", not only a paraphrase).
-- **Address stated logistics and prerequisites** in the cover letter where the posting raises them: security clearance willingness, start date or availability, commute or location fit, and the posting's reference/job ID where one exists. When the employer operates across several countries, a truthful language-capabilities sentence mapped to their footprint is high-value targeting.
+- **Address stated logistics and prerequisites** in the cover letter where the posting raises them: security clearance willingness, start date or availability, commute or location fit, and the posting's reference/job ID where one exists. When the employer operates across several countries, a truthful language-capabilities sentence mapped to their footprint is high-value targeting. Derive company slugs using the same rule `/outcome` Step 1.4 uses.
 
-*In both filenames below, `<company>_<role>` is derived by the **Subfolder naming** rule in `documents/README.md` — the same rule `/outcome` Step 1.4 uses for the archive folder, so a `/` or other path character in a company or role name can never split the filename across directories.*
+### Output Filename Standard
+For every application, output filenames must strictly follow:
+- Resume PDF: `cv/Resume_<Company>.pdf`
+- Resume Source: `cv/Resume_<Company>.html`
+- Cover Letter PDF: `cover_letters/Cover_Letter_<Company>.pdf`
+- Cover Letter Source: `cover_letters/Cover_Letter_<Company>.html`
+- `<Company>`: filesystem-safe (spaces $\to$ underscores, punctuation removed, preserving recognizable company name).
+- NEVER include implementation prefixes or internal build tags like `main_`, `cover_`, or role strings in the generated PDF/HTML filenames.
 
-### CV (`cv/main_<company>_<role><CV_EXT>`)
-- In the **CV language from the profile** (the `CV language:` line in CLAUDE.md's Identity section). When the profile does not set one, default to **English**. Never switch language per posting - the CV language is a profile-level choice, so all CVs stay consistent and reusable
-- Follow the moderncv/banking format from `05-cv-templates.md`
-- Tailor the profile statement and experience bullets to the specific role
-- Reframe skills and achievements to match job requirements
-- Keep to 2 pages
-- **Grounding Audit:** Before writing to disk, audit all tailored bullet points against the union of three sources: `.claude/skills/job-application-assistant/01-candidate-profile.md` + the master CV (`cv/main_example.tex`) + `CLAUDE.md`'s Candidate Profile section to verify that all dates, roles, and metrics match exactly (zero profile drift or fabrication).
+### CV (`cv/Resume_<Company>.html` $\to$ `cv/Resume_<Company>.pdf`)
+- In the **CV language from the profile** (default to **English**).
+- Follow the **Locked Master Resume Design** from `05-cv-templates.md` (canonical source: `the source product's resume-view component`).
+- **Never redesign or switch templates.** Preserve typography, spacing, section hierarchy, and bullet style (`–`).
+- **Preserve bold/highlighted keywords:** Maintain intentional `<strong>` highlighting on key technologies, scope, and high-value outcomes.
+- Tailor the profile summary, skills categories, experience bullets, and project ordering to the specific role without fabricating claims.
+- **Keep strictly to 1 page.**
+- **Visual Regression Check:** Verify against the approved reference `cv/Resume_Nuaav.html` $\to$ `cv/Resume_Nuaav.pdf`.
+- **Grounding Audit:** Before writing to disk, audit all tailored bullet points against `01-candidate-profile.md` + `CLAUDE.md` to verify dates, roles, and metrics match with zero fabrication.
 
-### Cover Letter (`cover_letters/cover_<company>_<role><COVER_EXT>`)
-- **Match the language of the job posting** (Danish posting -> Danish cover letter, English posting -> English cover letter)
-- Follow the structure from `06-cover-letter-templates.md`
-- Use the `cover.cls` template
-- Tailor the opening paragraph to the specific role and company
-- Address to a named person if available in the posting, otherwise "Dear Hiring Manager" (or equivalent in posting language)
-- Keep to approximately one page
-- Any mention of agentic coding or AI tooling must reference **Claude Code** by name
+### Cover Letter (`cover_letters/Cover_Letter_<Company>.html` $\to$ `cover_letters/Cover_Letter_<Company>.pdf`)
+- Match the language of the job posting (default to English).
+- Follow the **Locked Unified Typography & Document System** from `06-cover-letter-templates.md`.
+- Match the resume's exact font family (`-apple-system...`) and header branding.
+- Tailor opening, value-add bullet points, and bridge any honest gaps (e.g. Python/FastAPI, WebGL).
+- **Keep strictly to 1 page.**
+- **Visual Regression Check:** Verify against the approved reference `cover_letters/Cover_Letter_Nuaav.html` $\to$ `cover_letters/Cover_Letter_Nuaav.pdf`.
+- Any mention of agentic coding or AI tooling must reference **Claude Code** by name.
 
-Write both files to disk. Keep the exact text of both drafts in working memory — you will pass them inline to the reviewer in Step 3 and revise them in Step 4 without re-reading.
+Write both files to disk and compile via headless Chromium:
+```bash
+google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=cv/Resume_<Company>.pdf cv/Resume_<Company>.html
+google-chrome-stable --headless --disable-gpu --no-pdf-header-footer --print-to-pdf=cover_letters/Cover_Letter_<Company>.pdf cover_letters/Cover_Letter_<Company>.html
+```
 
 ---
 
@@ -293,19 +306,15 @@ Do not proceed to Step 6 until both PDFs pass inspection.
 
 An ATS parser reads the PDF's embedded **text layer**, not the rendered page — a CV that passed visual inspection can still extract as garbage (icon glyphs where the contact details should be, scrambled reading order in multi-column layouts). This step verifies what a parser actually sees. It applies to the **CV only**; cover letters rarely go through keyword screening.
 
-**Availability check:** extract with `python tools/verify_pdf.py` (tries **pypdf** first — BSD, `pip install pypdf` — then Poppler `pdftotext`). If both are missing, print a one-line warning that the mechanical parse check is skipped, do the keyword-coverage check (item 3 below) against your visual Read of the PDF instead, and note the degraded mode in the Step 6 report. Same graceful-skip pattern as the salary lookup. If a documented fallback still shells out to `pdftotext -layout`, keep the `-enc UTF-8` flag: Xpdf-based builds default to Latin-1 output, and without it a correct non-ASCII CV fails the replacement-character check below.
+**Availability check:** run `pdftotext -v`. `pdftotext` (poppler) is an optional dependency, not part of TeX distributions. If it is missing, print a one-line warning that the mechanical parse check is skipped, do the keyword-coverage check (item 3 below) against your visual Read of the PDF instead, and note the degraded mode in the Step 6 report. Same graceful-skip pattern as the salary lookup. Keep the `-enc UTF-8` flag: Xpdf-based builds default to Latin-1 output, and without it a correct non-ASCII CV fails the replacement-character check below.
 
 **1. Extract the text layer:**
 
 ```bash
-python tools/verify_pdf.py cv/main_<company>_<role>.pdf --dump-text cv/main_<company>_<role>.txt
-```
-
-The command prints `extractor: pypdf` or `extractor: pdftotext`. Record that name in the Step 6 report. Read the `.txt` file. If that tool is unavailable, the Poppler fallback is:
-
-```bash
 cd cv && pdftotext -layout -enc UTF-8 main_<company>_<role>.pdf main_<company>_<role>.txt
 ```
+
+Read the `.txt` file.
 
 **2. Parseability checks** on the extracted text:
 
@@ -326,10 +335,6 @@ Failures here are template-level problems: fix them in the `<CV_EXT>` source (e.
 - **synonym-only** — the concept is present under a different term. If the posting's exact term is truthfully applicable per the profile, prefer the posting's term (ATS keyword matches are often literal).
 - **missing (have it)** — the profile shows the candidate genuinely has this skill but the CV never says it: add it where it fits naturally, preferring experience bullets (concrete evidence) over the profile statement, then re-run 5a–5c.
 - **missing (gap)** — a genuine gap: leave it missing. **Never stuff keywords.** This is the same honesty rule the reviewer follows — a gap gets acknowledged in the cover letter's framing, not hidden in the CV.
-
-
-> **Note:** A multi-word phrase reported missing may be a punctuation-spacing artifact between extractors (pypdf sometimes inserts spaces around punctuation that Poppler does not). Re-check against the other extractor before concluding the text is absent.
-
 
 **4. Clean up:** delete the extracted `.txt` file.
 

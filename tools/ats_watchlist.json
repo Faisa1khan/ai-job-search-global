@@ -1,0 +1,104 @@
+[
+  {
+    "company": "Vercel",
+    "provider": "greenhouse",
+    "slug": "vercel",
+    "keywords": ["frontend", "engineer", "react", "next.js", "typescript", "ai"]
+  },
+  {
+    "company": "GitLab",
+    "provider": "greenhouse",
+    "slug": "gitlab",
+    "keywords": ["frontend", "engineer", "full stack", "react", "remote"]
+  },
+  {
+    "company": "Stripe",
+    "provider": "greenhouse",
+    "slug": "stripe",
+    "keywords": ["engineer", "frontend", "full stack", "react", "typescript"]
+  },
+  {
+    "company": "Postman",
+    "provider": "greenhouse",
+    "slug": "postman",
+    "keywords": ["engineer", "frontend", "full stack", "react", "ai"]
+  },
+  {
+    "company": "Moniepoint",
+    "provider": "greenhouse",
+    "slug": "moniepoint",
+    "keywords": ["frontend", "engineer", "react", "full stack", "typescript"]
+  },
+  {
+    "company": "Canonical",
+    "provider": "greenhouse",
+    "slug": "canonical",
+    "keywords": ["engineer", "frontend", "full stack", "web", "remote"]
+  },
+  {
+    "company": "Cloudflare",
+    "provider": "greenhouse",
+    "slug": "cloudflare",
+    "keywords": ["engineer", "frontend", "full stack", "typescript", "remote"]
+  },
+  {
+    "company": "Notion",
+    "provider": "ashby",
+    "slug": "notion",
+    "keywords": ["frontend", "engineer", "full stack", "react", "product"]
+  },
+  {
+    "company": "Supabase",
+    "provider": "ashby",
+    "slug": "supabase",
+    "keywords": ["frontend", "engineer", "full stack", "react", "typescript", "remote"]
+  },
+  {
+    "company": "LangChain",
+    "provider": "ashby",
+    "slug": "langchain",
+    "keywords": ["engineer", "frontend", "ai", "full stack", "typescript", "langgraph"]
+  },
+  {
+    "company": "Linear",
+    "provider": "ashby",
+    "slug": "linear",
+    "keywords": ["frontend", "engineer", "full stack", "react", "typescript"]
+  },
+  {
+    "company": "Atlan",
+    "provider": "ashby",
+    "slug": "atlan",
+    "keywords": ["engineer", "frontend", "full stack", "react", "data"]
+  },
+  {
+    "company": "PostHog",
+    "provider": "ashby",
+    "slug": "posthog",
+    "keywords": ["frontend", "engineer", "full stack", "react", "typescript", "remote"]
+  },
+  {
+    "company": "Meesho",
+    "provider": "lever",
+    "slug": "meesho",
+    "keywords": ["engineer", "frontend", "full stack", "software", "ai"]
+  },
+  {
+    "company": "Palantir",
+    "provider": "lever",
+    "slug": "palantir",
+    "keywords": ["engineer", "frontend", "software", "full stack", "typescript"]
+  },
+  {
+    "company": "Spotify",
+    "provider": "lever",
+    "slug": "spotify",
+    "keywords": ["engineer", "frontend", "web", "react", "typescript"]
+  },
+  {
+    "company": "Lever Demo",
+    "provider": "lever",
+    "slug": "leverdemo",
+    "keywords": ["engineer", "developer", "software"]
+  }
+]

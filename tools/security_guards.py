@@ -49,6 +49,10 @@ ALLOWED_PERMISSIONS = {
     "Bash(bun run .agents/skills/jobnet-search/cli/src/cli.ts:*)",
     "Bash(bun run .agents/skills/linkedin-search/cli/src/cli.ts:*)",
     "Bash(bun run .agents/skills/freehire-search/cli/src/cli.ts:*)",
+    "Bash(bun run .agents/skills/himalayas-search/cli/src/cli.ts:*)",
+    "Bash(bun run .agents/skills/remotive-search/cli/src/cli.ts:*)",
+    "Bash(bun run .agents/skills/ats-search/cli/src/cli.ts:*)",
+    "Bash(bun run .agents/skills/waas-search/cli/src/cli.ts:*)",
     "Bash(python salary_lookup.py:*)",
     "Bash(python3 salary_lookup.py:*)",
     "Bash(python tools/rank_state.py:*)",
@@ -124,6 +128,10 @@ ALLOWED_IGNORE_NEGATIONS = {
     "!cv/main_example.tex",
     "!cover_letters/cover_example.tex",
     "!documents/**/.gitkeep",
+    "!cv/Resume_*.pdf",
+    "!cover_letters/Cover_Letter_*.pdf",
+    "!job_search_tracker.csv",
+    "!job_scraper/seen_jobs.json",
 }
 
 # Hook commands the template legitimately ships, as "<Event>:<command>" strings.

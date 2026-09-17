@@ -77,8 +77,13 @@ LAST_PAGE_THIN_FRACTION = 0.35
 
 # The page-number footer lives in the bottom margin and is a text line like any other to
 # Poppler. Ignore this band when measuring the body, or every page looks like it has a
-# hole above its footer.
+# hole above its footer. (For 1-page HTML resumes without page numbers, set to 0).
 FOOTER_BAND_PT = 90.0
+
+# 1-page document bounds: balanced margins with little space on top and little space on bottom
+MAX_SINGLE_PAGE_BOTTOM_SPACE_PT = 75.0
+MIN_BOTTOM_SPACE_PT = 20.0
+MAX_TOP_SPACE_PT = 55.0
 
 # A line indented at least this far past the page's left edge is a bullet or a
 # continuation, not an entry header or a section heading.
@@ -103,18 +108,23 @@ class Line:
 
 
 class Page:
-    def __init__(self, height: float, lines: list[Line]):
+    def __init__(self, height: float, lines: list[Line], footer_band: float = FOOTER_BAND_PT):
         self.height = height
         self.lines = sorted(lines, key=lambda l: l.top)
+        self.footer_band = footer_band
 
     @property
     def body(self) -> list[Line]:
-        cutoff = self.height - FOOTER_BAND_PT
+        cutoff = self.height - self.footer_band
         return [l for l in self.lines if l.top < cutoff]
 
     @property
     def empty(self) -> bool:
         return not self.body
+
+    @property
+    def top_space(self) -> float:
+        return min(l.top for l in self.body) if self.body else self.height
 
     @property
     def bottom_space(self) -> float:
@@ -132,7 +142,9 @@ class Page:
     @property
     def footer_crowded(self) -> bool:
         """One line in the bottom band is a page number; two means body text spilled in."""
-        band = self.height - FOOTER_BAND_PT
+        if self.footer_band <= 0:
+            return False
+        band = self.height - self.footer_band
         return len({round(l.top, 1) for l in self.lines if l.top >= band}) > 1
 
     def is_indented(self, line: Line) -> bool:
@@ -156,7 +168,7 @@ class Page:
         return max((tops[i + 1] - tops[i], tops[i]) for i in range(len(tops) - 1))
 
 
-def parse_pdf(path: Path) -> list[Page]:
+def parse_pdf(path: Path, footer_band: float | None = None) -> list[Page]:
     if not shutil.which("pdftotext"):
         raise RuntimeError("pdftotext (Poppler) not found; install poppler-utils")
     try:
@@ -188,8 +200,13 @@ def parse_pdf(path: Path) -> list[Page]:
             "document - Poppler 26.0x before 26.05 aborts on a PDF whose Info "
             "dictionary carries an empty string, as hyperref writes when pdftitle is unset"
         ) from exc
+
+    raw_pages = PAGE_RE.findall(out)
+    num_pages = len(raw_pages)
+    effective_band = footer_band if footer_band is not None else (0.0 if num_pages == 1 else FOOTER_BAND_PT)
+
     pages = []
-    for _w, h, body in PAGE_RE.findall(out):
+    for _w, h, body in raw_pages:
         buckets: dict[float, list[tuple[float, float, float, str]]] = {}
         for x_min, y_min, y_max, text in WORD_RE.findall(body):
             key = round(float(y_min), 0)  # words on one line share a rounded yMin
@@ -204,7 +221,7 @@ def parse_pdf(path: Path) -> list[Page]:
             )
             for words in buckets.values()
         ]
-        pages.append(Page(float(h), lines))
+        pages.append(Page(float(h), lines, footer_band=effective_band))
     return pages
 
 
@@ -260,7 +277,14 @@ def find_orphans(pages: list[Page]) -> list[str]:
     return problems
 
 
-def report(path: Path, pages: list[Page]) -> list[str]:
+def report(
+    path: Path,
+    pages: list[Page],
+    max_bottom_space: float = MAX_SINGLE_PAGE_BOTTOM_SPACE_PT,
+    min_bottom_space: float = MIN_BOTTOM_SPACE_PT,
+    max_top_space: float = MAX_TOP_SPACE_PT,
+    check_single_page_fill: bool = True,
+) -> list[str]:
     problems: list[str] = []
     print(f"{path}: {len(pages)} page(s) (page count is verify_pdf.py's job, not checked here)")
 
@@ -273,7 +297,7 @@ def report(path: Path, pages: list[Page]) -> list[str]:
         gap, gap_y = page.largest_gap()
         share = page.bottom_space / page.height
         print(
-            f"  p{i}: text y {page.body[0].top:.0f}..{page.body[-1].bottom:.0f}"
+            f"  p{i}: text y {page.top_space:.0f}..{page.body[-1].bottom:.0f}"
             f" of {page.height:.0f}pt | bottom {page.bottom_space:.0f}pt ({share * 100:.0f}%)"
             f" | largest gap {gap:.0f}pt at y{gap_y:.0f}"
         )
@@ -284,29 +308,95 @@ def report(path: Path, pages: list[Page]) -> list[str]:
                 "A moderncv \\cventry is an unbreakable tabular: shorten the entry that "
                 "follows the hole so it fits, or move a shorter section above it"
             )
-        if i < len(pages) and share > BOTTOM_LIMIT_FRACTION:
-            problems.append(
-                f"p{i} ends {page.bottom_space:.0f}pt ({share * 100:.0f}%) early although "
-                "more pages follow, which reads as a broken page break"
-            )
-        if page.footer_crowded:
-            problems.append(
-                f"p{i} has body text inside the bottom margin band, colliding with the "
-                "footer; stop stretching the page with \\enlargethispage and cut content"
-            )
-        if i == len(pages) > 1 and share > LAST_PAGE_THIN_FRACTION:
-            problems.append(
-                f"p{i} is the last page and {share * 100:.0f}% empty, which reads as an "
-                "unfinished document; restore the highest-relevance content previously cut"
-            )
+
+        if len(pages) == 1 and check_single_page_fill:
+            # Single-page document density & margin checks
+            if page.top_space > max_top_space:
+                problems.append(
+                    f"p{i} has excessive top whitespace ({page.top_space:.0f}pt > {max_top_space:.0f}pt); "
+                    "expected a compact header margin (~20-35pt)"
+                )
+            if page.bottom_space > max_bottom_space:
+                problems.append(
+                    f"p{i} is underfilled: content ends at y{page.body[-1].bottom:.0f} leaving "
+                    f"{page.bottom_space:.0f}pt ({share * 100:.0f}%) bottom whitespace "
+                    f"(maximum allowed: {max_bottom_space:.0f}pt / ~{max_bottom_space / page.height * 100:.1f}%). "
+                    "A 1-page resume must be well-filled with balanced margins (little space top and bottom). "
+                    "Add relevant evidence/bullets from Master to fill the page"
+                )
+            elif page.bottom_space < min_bottom_space:
+                problems.append(
+                    f"p{i} text extends too close to the bottom page boundary (bottom space {page.bottom_space:.0f}pt < {min_bottom_space:.0f}pt), "
+                    "risking page overflow or edge clipping. Shorten content slightly"
+                )
+        else:
+            # Multi-page documents
+            if i < len(pages) and share > BOTTOM_LIMIT_FRACTION:
+                problems.append(
+                    f"p{i} ends {page.bottom_space:.0f}pt ({share * 100:.0f}%) early although "
+                    "more pages follow, which reads as a broken page break"
+                )
+            if page.footer_crowded:
+                problems.append(
+                    f"p{i} has body text inside the bottom margin band, colliding with the "
+                    "footer; stop stretching the page with \\enlargethispage and cut content"
+                )
+            if i == len(pages) > 1 and share > LAST_PAGE_THIN_FRACTION:
+                problems.append(
+                    f"p{i} is the last page and {share * 100:.0f}% empty, which reads as an "
+                    "unfinished document; restore the highest-relevance content previously cut"
+                )
 
     problems.extend(find_orphans(pages))
     return problems
 
 
+def detect_doc_type(path: Path) -> str:
+    name = path.name.lower()
+    parent = path.parent.name.lower()
+    if "cover" in name or "cover" in parent:
+        return "cover_letter"
+    return "resume"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("pdf", nargs="?", type=Path)
+    ap.add_argument(
+        "--doc-type",
+        choices=["auto", "resume", "cover_letter"],
+        default="auto",
+        help="document type for layout heuristics (default: auto)",
+    )
+    ap.add_argument(
+        "--max-bottom-space",
+        type=float,
+        default=None,
+        help=f"maximum allowed bottom whitespace in pt for 1-page documents (default: {MAX_SINGLE_PAGE_BOTTOM_SPACE_PT}pt for resumes)",
+    )
+    ap.add_argument(
+        "--min-bottom-space",
+        type=float,
+        default=MIN_BOTTOM_SPACE_PT,
+        help=f"minimum required bottom whitespace in pt (default: {MIN_BOTTOM_SPACE_PT}pt)",
+    )
+    ap.add_argument(
+        "--max-top-space",
+        type=float,
+        default=MAX_TOP_SPACE_PT,
+        help=f"maximum allowed top whitespace in pt (default: {MAX_TOP_SPACE_PT}pt)",
+    )
+    ap.add_argument(
+        "--footer-band",
+        type=float,
+        default=None,
+        help="footer band height in pt (default: 0 for 1-page, 90.0 for multi-page)",
+    )
+    ap.add_argument(
+        "--no-single-page-fill",
+        action="store_true",
+        help="disable underfill/whitespace checks for 1-page documents",
+    )
     args = ap.parse_args()
 
     if not args.pdf:
@@ -316,12 +406,31 @@ def main() -> int:
         return 2
 
     try:
-        pages = parse_pdf(args.pdf)
+        pages = parse_pdf(args.pdf, footer_band=args.footer_band)
     except RuntimeError as exc:
         print(f"skipped: {exc}", file=sys.stderr)
         return 2
 
-    problems = report(args.pdf, pages)
+    doc_type = detect_doc_type(args.pdf) if args.doc_type == "auto" else args.doc_type
+
+    if args.max_bottom_space is not None:
+        max_bottom = args.max_bottom_space
+        check_fill = not args.no_single_page_fill
+    elif doc_type == "cover_letter":
+        max_bottom = 450.0
+        check_fill = False
+    else:
+        max_bottom = MAX_SINGLE_PAGE_BOTTOM_SPACE_PT
+        check_fill = not args.no_single_page_fill
+
+    problems = report(
+        args.pdf,
+        pages,
+        max_bottom_space=max_bottom,
+        min_bottom_space=args.min_bottom_space,
+        max_top_space=args.max_top_space,
+        check_single_page_fill=check_fill,
+    )
     if problems:
         print("\nLAYOUT PROBLEMS:")
         for m in problems:

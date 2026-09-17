@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="[YOUR_NAME] — AI Systems & Product Engineer">
+  <title>[YOUR_NAME] — AI Systems & Product Engineer</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 14.2px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: #1a1a1a;
+      line-height: 1.40;
+      background: #f4f4f5;
+    }
+
+    /* ===== Page Container ===== */
+    .resume {
+      max-width: 820px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 34px 42px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    }
+
+    /* ===== Header ===== */
+    .header {
+      text-align: center;
+      margin-bottom: 11px;
+      padding-bottom: 9px;
+      border-bottom: 2px solid #111;
+    }
+
+    .header h1 {
+      font-size: 1.70rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #111;
+      margin-bottom: 4px;
+    }
+
+    .header .contact {
+      font-size: 0.81rem;
+      color: #444;
+      line-height: 1.45;
+    }
+
+    .header .contact a {
+      color: #111;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .header .contact a:hover {
+      text-decoration: underline;
+    }
+
+    .header .contact .sep {
+      margin: 0 5px;
+      color: #999;
+    }
+
+    .header .location {
+      font-size: 0.77rem;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    /* ===== Section ===== */
+    .section {
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #111;
+      border-bottom: 1px solid #d4d4d8;
+      padding-bottom: 2.5px;
+      margin-bottom: 6px;
+    }
+
+    /* ===== Summary ===== */
+    .summary p {
+      font-size: 0.84rem;
+      color: #2b2b2b;
+      line-height: 1.45;
+    }
+
+    .summary strong, .entry strong, .achievements strong, .skill-row strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3px;
+    }
+
+    .skill-row {
+      font-size: 0.81rem;
+      line-height: 1.40;
+    }
+
+    .skill-row strong.category-label {
+      color: #111;
+      font-weight: 600;
+    }
+
+    .skill-row span {
+      color: #333;
+    }
+
+    /* ===== Experience & Projects ===== */
+    .entry {
+      margin-bottom: 7.5px;
+    }
+
+    .entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 1px;
+    }
+
+    .entry-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .entry-title .role {
+      font-weight: 400;
+      color: #333;
+    }
+
+    .entry-title a.project-link {
+      font-size: 0.77rem;
+      font-weight: 500;
+      color: #2563eb;
+      text-decoration: none;
+      margin-left: 5px;
+    }
+
+    .entry-title a.project-link:hover {
+      text-decoration: underline;
+    }
+
+    .entry-meta {
+      font-size: 0.77rem;
+      color: #555;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .entry-tech {
+      font-size: 0.76rem;
+      color: #4b5563;
+      margin-bottom: 2px;
+      font-style: italic;
+    }
+
+    .entry-desc {
+      font-size: 0.78rem;
+      color: #4b5563;
+      font-weight: 500;
+      margin-bottom: 1.5px;
+    }
+
+    .entry ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .entry ul li {
+      font-size: 0.81rem;
+      color: #262626;
+      line-height: 1.40;
+      padding-left: 12px;
+      position: relative;
+      margin-bottom: 2px;
+    }
+
+    .entry ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: #666;
+      font-weight: 700;
+    }
+
+    /* ===== Education ===== */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5px;
+    }
+
+    .edu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.81rem;
+    }
+
+    .edu-item .edu-name {
+      font-weight: 600;
+      color: #111;
+    }
+
+    .edu-item .edu-name span {
+      font-weight: 400;
+      color: #333;
+    }
+
+    .edu-item .edu-date {
+      font-size: 0.77rem;
+      color: #555;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    /* ===== Achievements ===== */
+    .achievements ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .achievements ul li {
+      font-size: 0.81rem;
+      color: #262626;
+      line-height: 1.40;
+      padding-left: 12px;
+      position: relative;
+      margin-bottom: 1.5px;
+    }
+
+    .achievements ul li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: #666;
+      font-weight: 700;
+    }
+
+    /* ===== Print Styles ===== */
+    @media print {
+      html {
+        font-size: 13.2px;
+      }
+
+      body {
+        background: none;
+      }
+
+      .resume {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .header {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+      }
+
+      .section {
+        margin-bottom: 9px;
+      }
+
+      .entry {
+        margin-bottom: 6.5px;
+      }
+
+      .entry, .edu-item, .achievements ul li {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      a {
+        text-decoration: none !important;
+        color: inherit !important;
+      }
+
+      .entry-title a.project-link {
+        color: #2563eb !important;
+      }
+
+      @page {
+        margin: 0.36in 0.44in 0.36in 0.44in;
+        size: letter;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="resume">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+      <h1>[YOUR_NAME_UPPER]</h1>
+      <div class="contact">
+        <a href="mailto:[YOUR_EMAIL]">[YOUR_EMAIL]</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/[YOUR_GITHUB]" target="_blank">github.com/alexdoe</a>
+        <span class="sep">·</span>
+        <a href="https://linkedin.com/in/[YOUR_LINKEDIN]" target="_blank">linkedin.com/in/alexdoe</a>
+        <span class="sep">·</span>
+        <a href="https://[YOUR_PORTFOLIO].dev" target="_blank">[YOUR_PORTFOLIO].dev</a>
+      </div>
+      <div class="location">[YOUR_LOCATION] · Open to Remote / Hybrid</div>
+    </div>
+
+    <!-- ===== SUMMARY ===== -->
+    <div class="section summary">
+      <div class="section-title">Summary</div>
+      <p>
+        <strong>AI Systems &amp; Product Engineer</strong> (Frontend/Fullstack) with <strong>6+ years</strong> shipping enterprise SaaS (<strong>React, TypeScript, Next.js</strong>) and <strong>AI into production</strong>. Led a <strong>deterministic payroll computation engine</strong> (closed-form ESI/CTC balancing), modernized AngularJS → React, and integrated <strong>Gemini AI</strong> into live HR workflows (<strong>~70%</strong> faster parsing, <strong>&gt;50%</strong> better shortlisting). Independent builder of <strong>Project Nexus</strong> (multi-tenant booking SaaS), <strong>Universal AI Brain</strong> (Notion ↔ Gemini via <strong>MCP</strong>), and <strong>agy-orchestrator</strong> (multi-model coding CLI); operates a <strong>self-hosted AI-agent platform</strong> (Mem0 + vector store, agent orchestration, MCP wiring). Rigorous <strong>ADRs, state machines, Playwright/Vitest</strong>.
+      </p>
+    </div>
+
+    <!-- ===== SKILLS ===== -->
+    <div class="section">
+      <div class="section-title">Skills</div>
+      <div class="skills-grid">
+        <div class="skill-row">
+          <strong class="category-label">Frontend:</strong>
+          <span><strong>React</strong> (React 18/19) · <strong>TypeScript</strong> · JavaScript · <strong>Next.js</strong> (App Router, RSC) · <strong>Redux Toolkit</strong> · Tailwind CSS · HTML5 · CSS3 · <strong>Core Web Vitals</strong> · <strong>Accessibility (WCAG 2.1 AA, ARIA, keyboard)</strong></span>
+        </div>
+        <div class="skill-row">
+          <strong class="category-label">AI &amp; Agentic Systems:</strong>
+          <span><strong>Model Context Protocol (MCP)</strong> · LLM API Integration (<strong>Gemini</strong>) · <strong>Multi-Model Agent Pipelines</strong> · <strong>LangGraph</strong> · Vector Retrieval (Mem0/Qdrant) · Evals (Langfuse/DeepEval) · Prompt Engineering</span>
+        </div>
+        <div class="skill-row">
+          <strong class="category-label">AI Systems &amp; Platform:</strong>
+          <span>Agent Orchestration · Semantic Memory (<strong>Mem0</strong>) · Vector DB (<strong>Qdrant</strong>) · Self-hosted Infra (<strong>systemd</strong>, ARM64) · <strong>FastAPI</strong> · Pydantic v2 · Axiom Telemetry</span>
+        </div>
+        <div class="skill-row">
+          <strong class="category-label">Backend &amp; Data:</strong>
+          <span><strong>Node.js</strong> · <strong>REST / OpenAPI</strong> · <strong>SSE / Streaming</strong> · <strong>Runtime Validation (Zod)</strong> · Server Components / Actions · Caching · Supabase · PostgreSQL · Drizzle ORM</span>
+        </div>
+        <div class="skill-row">
+          <strong class="category-label">Architecture &amp; Testing:</strong>
+          <span>State Machines · Multi-Tenant Architecture · <strong>ADRs</strong> · Typed API Contracts · <strong>Playwright</strong> · <strong>Vitest</strong> · React Testing Library · Sentry</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <div class="section">
+      <div class="section-title">Experience</div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Acme Corp <span class="role">— Senior Software Engineer (Frontend)</span></div>
+          <div class="entry-meta">Dec 2019 – Present · [YOUR_LOCATION]</div>
+        </div>
+        <ul>
+          <li>Own end-to-end delivery across <strong>8 core HRMS modules</strong>: Payroll, Statutory Compliance, Attendance, Leave, L&amp;D, Recruitment, Onboarding, Exit. Multi-country SaaS (<strong>US, UK, and APAC</strong>), including web + mobile payroll self-service for <strong>10,000+ users</strong></li>
+          <li>Engineer a <strong>deterministic payroll computation engine</strong> (CTC, gross-to-net, ESI/PF/TDS), solving the <strong>ESI↔balancing-head circular dependency</strong> with a <strong>closed-form algebraic solution</strong> under the ₹21,000 ceiling in single pass, no re-render or state divergence</li>
+          <li>Led <strong>AngularJS → React 18 / TypeScript</strong> modernization of Setup &amp; Employee surfaces (<strong>Redux Toolkit</strong>, state machines, shared <strong>accessible</strong> component library with ARIA/keyboard support) via <strong>NGINX hybrid routing</strong>, zero-downtime</li>
+          <li>Integrated <strong>42 external OpenAPI endpoints</strong> against a <strong>.NET Core payroll gateway</strong> (+ Laravel bridge), with schema-parity auditing across C#/JS boundaries; root-caused a cast bug unblocking 5 production endpoints</li>
+          <li>Shipped <strong>statutory compliance &amp; analytics reporting</strong> across <strong>multiple jurisdictions</strong> (PT, LWF, Bonus, Gratuity, Form 16) + UAE WPS + Malaysia, with a virtualized engine rendering <strong>50,000+ cells</strong>, zero missed deadlines; dual-mode search cut latency to <strong>&lt;150ms</strong> on <strong>5,000+ records</strong></li>
+          <li>Delivered <strong>AI into a live enterprise product</strong>: <strong>Gemini</strong> resume parsing (<strong>~70%</strong> faster), candidate matching (<strong>&gt;50%</strong> shortlisting), auto JD generation (hours → seconds)</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title">Independent / Self-employed <span class="role">— AI Systems &amp; Product Engineer</span></div>
+          <div class="entry-meta">Jun 2026 – Present · [YOUR_LOCATION]</div>
+        </div>
+        <div class="entry-tech">Next.js 16 · React 19 · Supabase (RLS) · Drizzle ORM · MCP · Gemini · TypeScript · Mem0 · Qdrant · FastAPI</div>
+        <ul>
+          <li><strong>Project Nexus</strong> ([YOUR_PORTFOLIO].dev): multi-tenant appointment/queue SaaS with <strong>16 modules, 29 ADRs, 25 Playwright suites</strong>, deterministic booking <strong>state machine</strong> eliminating double-booking, calendar virtualization optimizing render performance, org-scoped RLS, PWA, <strong>Core Web Vitals</strong>, bilingual</li>
+          <li><strong>agy-orchestrator</strong>: open-source multi-model coding CLI with <strong>Planner → Coder → Quality Gate → Independent Reviewer</strong> and git-safety assertions</li>
+          <li><strong>Universal AI Brain</strong>: persistent AI-agent knowledge system with <strong>Notion ↔ Gemini via MCP</strong>, Supabase persistence, Axiom telemetry, FastAPI gateway (uv, Pydantic v2)</li>
+          <li><strong>CircularCommerce</strong>: B2B circular-IT commerce (React 19, Vite, <strong>Gemini 2.5 Flash API</strong>), 98+ Lighthouse</li>
+          <li><strong>Self-hosted AI-agent platform</strong>: Mem0 + embedded Qdrant, hardened systemd gateway (ARM64), multi-model orchestration, MCP wiring, EROFS incident fix + rollback runbook</li>
+          <li><strong>Autonomous Payroll &amp; Compliance Workflow Studio</strong> (<a href="https://github.com/[YOUR_GITHUB]/payroll-workflow-engine" target="_blank" style="color: #2563eb; text-decoration: none;">payroll-workflow-engine</a>): shipped <strong>LangGraph</strong> payroll-anomaly agent with <strong>validate_statutory → analyze_anomalies → human_approval_gate</strong> (real <strong>interrupt</strong> checkpoint), deterministic ESI/regime tools, <strong>20/20</strong> correctness eval suite; roadmap: <strong>React Flow</strong> DAG canvas → FastAPI (SSE) → Langfuse/DeepEval tracing</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== EDUCATION ===== -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="edu-grid">
+        <div class="edu-item">
+          <div class="edu-name">State University <span>— B.Tech in Computer Science</span></div>
+          <div class="edu-date">May 2019</div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-name">Udacity (Google Scholarship) <span>— Mobile Web Specialist Nanodegree</span></div>
+          <div class="edu-date">Dec 2018</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ACHIEVEMENTS ===== -->
+    <div class="section achievements">
+      <div class="section-title">Achievements</div>
+      <ul>
+        <li><strong>Mobile Web Challenge Scholar</strong> — Selected among <strong>top 150 candidates nationwide</strong>; completed Mobile Web Specialist Nanodegree</li>
+        <li><strong>Team Spirit Excellence Award</strong> — Acme FY 2025-26</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>

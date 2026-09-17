@@ -1,0 +1,3 @@
+OpenAlex Literature Search Skill Notification
+Timestamp: 2026-08-26T02:29:00+05:30
+User Notice: Please check the OpenAlex API terms at https://developers.openalex.org/ and always verify the individual license and access permissions for any scholarly papers retrieved.

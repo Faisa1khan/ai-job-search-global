@@ -110,6 +110,38 @@ class TestOrphans(unittest.TestCase):
         s2 = Page(A4_HEIGHT, [line(60, left=70.0, text="- first bullet")])
         self.assertTrue(any("orphaned from its bullets" in m for m in find_orphans([s1, s2])))
 
+class TestSinglePageFill(unittest.TestCase):
+    def test_well_filled_single_page_passes(self):
+        # Master PDF geometry: text y 28..739 of 792pt (bottom space 53pt)
+        lines = [line(y) for y in range(28, 735, 20)] + [line(735, height=9.0)]
+        p = Page(792.0, lines, footer_band=0.0)
+        with redirect_stdout(io.StringIO()):
+            problems = report(Path("synthetic_master.pdf"), [p])
+        self.assertEqual(problems, [])
+
+    def test_underfilled_single_page_fails(self):
+        # PhysicsWallah underfilled geometry: text y 28..654 of 792pt (bottom space 138pt)
+        lines = [line(y) for y in range(28, 650, 20)] + [line(650, height=4.0)]
+        p = Page(792.0, lines, footer_band=0.0)
+        with redirect_stdout(io.StringIO()):
+            problems = report(Path("synthetic_underfilled.pdf"), [p])
+        self.assertTrue(any("underfilled" in m for m in problems), problems)
+
+    def test_excessive_top_space_fails(self):
+        lines = [line(y) for y in range(80, 735, 20)] + [line(735, height=9.0)]
+        p = Page(792.0, lines, footer_band=0.0)
+        with redirect_stdout(io.StringIO()):
+            problems = report(Path("synthetic_large_top.pdf"), [p])
+        self.assertTrue(any("excessive top whitespace" in m for m in problems), problems)
+
+    def test_too_close_to_bottom_edge_fails(self):
+        lines = [line(y) for y in range(28, 780, 20)] + [line(780, height=5.0)]
+        p = Page(792.0, lines, footer_band=0.0)
+        with redirect_stdout(io.StringIO()):
+            problems = report(Path("synthetic_overflow_risk.pdf"), [p])
+        self.assertTrue(any("too close to the bottom" in m for m in problems), problems)
+
+
 class TestExtractorFailure(unittest.TestCase):
     """A broken extractor must not masquerade as a broken document.
 

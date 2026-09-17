@@ -1,90 +1,172 @@
-# Search Queries for Job Scraper
+# Search Queries for Job Scraper (India & Global Remote)
 
-<!-- SETUP: Customize these queries based on your skills, target roles, and location -->
+## Installed Portal CLIs (Primary for `/scrape`)
 
-## Installed portal CLIs (primary for `/scrape`)
+`/scrape` discovers every portal skill under `.agents/skills/*/SKILL.md` and runs its CLI first. Installed CLIs include `linkedin-search`, `freehire-search`, `himalayas-search`, `remotive-search`, `ats-search` (direct Greenhouse, Lever, Ashby ATS company watchlist), and `waas-search` (Y Combinator Work at a Startup).
 
-`/scrape` discovers every portal skill under `.agents/skills/*/SKILL.md` and runs its CLI first. Shipped country-agnostic CLIs include `linkedin-search` and `freehire-search`; Danish demos and any skill you add with `/add-portal` are included the same way. You do **not** need a matching `site:` line below for those CLIs to run.
+The `site:` query templates in this file are the **WebSearch fallback** — for portals without a CLI (Naukri, Instahyre, Cutshort, Wellfound, WeWorkRemotely, RemoteOK), company career pages, or when a CLI fails.
 
-The `site:` query templates in this file are the **WebSearch fallback** — for portals without a CLI, company career pages, or when a CLI fails.
+---
 
-**Language scope:** write every query category in every language listed in your CLAUDE.md Languages table (typically 1-2, sometimes more). A posting requiring a language you have *not* declared, as a job condition, is excluded before scoring; a posting requiring a *higher level* than you declared in a language you *do* work in is flagged for your own judgment, not excluded — see `04-job-evaluation.md`'s Language Gate, the single source of truth for this rule. Translate each category's keywords rather than machine-translating word-for-word (e.g. "Frontend Developer" -> "Desarrollador Frontend", not a literal word-for-word translation) if you work in more than one language.
+## Target Scope & Geographic Reach
 
-## Search Sites
+### Target Work Arrangements
+1. **India-Wide Remote:** Roles across India offering 100% remote work.
+2. **Local / Remote (Hybrid / Onsite):** San Francisco, Noida, Local / Remote with hybrid or onsite flexibility.
+3. **Remote Worldwide / Work from Anywhere:** Global remote companies hiring globally (e.g. Gitlab, Automattic, Supabase, Vercel, PostHog, Remote.com).
+4. **Remote APAC:** Singapore, Australia/NZ, Japan, Southeast Asia remote roles hiring across APAC/India timezones.
+5. **Remote Europe & UK:** EMEA, UK, EU remote roles open to global contractors / EOR hiring with India time overlap.
+6. **Remote US & Canada:** US/North American tech companies hiring global contractors or via EOR (Deel, Oyster, Remote.com) in India.
 
-Primary (your market's job boards - scaffold one with `/add-portal`):
-- **[YOUR_JOB_BOARD]** - your market's largest general job board
-- **linkedin.com/jobs** - LinkedIn job listings (filter: [YOUR_COUNTRY] / [YOUR_CITY]); also covered by `linkedin-search` CLI
-- **[YOUR_INDUSTRY_JOB_BOARD]** - a niche/industry board for your field (optional)
-- **[YOUR_ADDITIONAL_JOB_BOARD]** - another major board for your market (optional)
+### Role Priorities
+- **Priority 1:** Senior Frontend Engineer / Senior React Developer / Senior Next.js Developer
+- **Priority 2:** AI Frontend Engineer / AI-Enabled Frontend / Frontend Engineer (LLM & Agents)
+- **Priority 3:** Product Engineer (Frontend-leaning / Next.js / TypeScript)
+- **Priority 4:** Senior Web / UI Platform Engineer (Enterprise SaaS, Design Systems, Performance)
 
-Secondary (company career pages via Google):
-- Direct Google searches with `site:` filters for known target companies
+---
 
-## Query Categories
+## Global Remote Evaluation & Parsing Rules
 
-Queries are grouped by priority. Write **each category in every language from your Languages table** (see Language scope above). Combine each query with your location terms (e.g. your city, region, or metro area) where the site supports it.
+For **every global remote opportunity**, evaluate and classify parameters according to the strict 4-tier taxonomy:
 
-**Organize by function, not job title.** The same underlying work carries different titles across companies and markets (a "Data Scientist" role at one employer may be posted as "Insights Analyst" or "Data Consultant" at another). Name each priority category after the function it covers, and list several plausible job titles as query variants within that category rather than betting an entire priority tier on one exact title string.
+### India Eligibility Classification Standards
+| Confidence Level | Exact Criteria |
+|---|---|
+| **`CONFIRMED`** | • Posting explicitly states worldwide / global / India hiring allowed, OR<br>• Company employment policy explicitly confirms hiring in India. |
+| **`LIKELY`** | • Strong verifiable evidence of India hiring exists (e.g. established Indian engineering hubs), but posting is not explicit. |
+| **`UNCLEAR`** | • Posting says "Remote" or "Worldwide" without clear country eligibility bounds. |
+| **`EXCLUDED`** | • Explicit US/EU/local country residency, citizenship, work authorization, or incompatible timezone requirements. |
 
-### Priority 1: [YOUR_PRIMARY_ROLE_TYPE]
+> **Strict Rule:** NEVER upgrade `LIKELY` or `UNCLEAR` to `CONFIRMED` based solely on:
+> 1. ATS platform (Greenhouse, Ashby, Lever)
+> 2. Deel / Remote.com mentions
+> 3. LinkedIn employee location
+> 4. Generic company reputation
+> 5. Inferred EOR availability
+>
+> In ranking reports, **show India Eligibility confidence separately from the Fit Score**.
 
-These match your strongest and most desired career direction.
+| Parameter | Evaluation Criteria |
+|---|---|
+| **Country Restrictions** | Note specific country or state exclusions stated in the posting. |
+| **Timezone Requirements** | Identify required working hours / overlap (e.g. UTC, EST/PST overlap, CET +/- 3h, APAC, IST). |
+| **Employment Model** | Identify engagement model if stated: Full-time via EOR (Deel/Oyster/Remote), direct contractor (B2B/W8-BEN), or direct Indian subsidiary entity. |
+| **Salary & Currency** | Extract compensation range and currency if available (USD, EUR, GBP, CAD, AUD, INR). |
+| **No Compensation Filter Rule** | **NEVER exclude or downrank a role simply because compensation is not listed.** (Treat missing salary as standard industry practice). |
 
+---
+
+## CLI Execution Matrices for `/scrape`
+
+### 1. `linkedin-search` CLI Commands
+
+```bash
+# Global Remote — Senior Frontend / React / TypeScript
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Senior Frontend Engineer" -l "Remote" --remote remote --jobage 14 --limit 25 --format json
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Senior React Developer" -l "Remote" --remote remote --jobage 14 --limit 25 --format json
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Senior Next.js Developer" -l "Remote" --remote remote --jobage 14 --limit 25 --format json
+
+# Global Remote — AI Frontend & Product Engineering
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "AI Frontend Engineer" -l "Remote" --remote remote --jobage 14 --limit 25 --format json
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Product Engineer React" -l "Remote" --remote remote --jobage 14 --limit 25 --format json
+
+# India-Wide Remote & Local Hybrid (Local / Remote)
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Senior Frontend Engineer React" -l "India" --remote remote --jobage 14 --limit 25 --format json
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Senior Frontend Engineer" -l "Remote" --jobage 14 --limit 25 --format json
+bun run .agents/skills/linkedin-search/cli/src/cli.ts search -q "Senior Frontend Engineer" -l "Noida, Uttar Pradesh, India" --jobage 14 --limit 25 --format json
 ```
-site:[YOUR_JOB_BOARD] "[YOUR_PRIMARY_JOB_TITLE_1]" [YOUR_CITY]
-site:[YOUR_JOB_BOARD] "[YOUR_PRIMARY_JOB_TITLE_2]" [YOUR_CITY]
-site:[YOUR_JOB_BOARD] "[YOUR_KEY_SKILL]" [YOUR_CITY]
-site:linkedin.com/jobs "[YOUR_PRIMARY_JOB_TITLE_1]" [YOUR_COUNTRY]
+
+### 2. `freehire-search` CLI Commands
+
+```bash
+# Global & Multi-Region Tech Aggregator Searches
+bun run .agents/skills/freehire-search/cli/src/cli.ts search -q "Senior Frontend Engineer" --region global,apac,eu,us --remote remote --category frontend,fullstack --seniority senior,lead --jobage 14 --limit 25 --format json
+bun run .agents/skills/freehire-search/cli/src/cli.ts search -q "React TypeScript" --region global,eu,us --remote remote --seniority senior,lead,staff --jobage 14 --limit 25 --format json
+bun run .agents/skills/freehire-search/cli/src/cli.ts search -q "Next.js" --region global,apac,eu,us --remote remote --category frontend,fullstack --jobage 14 --limit 25 --format json
+bun run .agents/skills/freehire-search/cli/src/cli.ts search -q "AI Frontend" --region global,eu,us --remote remote --jobage 14 --limit 25 --format json
 ```
 
-### Priority 2: [YOUR_DOMAIN_EXPERTISE]
+### 3. Remote-Tech Aggregators (`himalayas-search` & `remotive-search`) CLI Commands
 
-These match your domain expertise.
+```bash
+# Himalayas — Senior Frontend / React / TypeScript / AI Roles
+bun run .agents/skills/himalayas-search/cli/src/cli.ts search -q "Frontend" -s senior -j 14 --limit 20 --format json
+bun run .agents/skills/himalayas-search/cli/src/cli.ts search -q "React" -j 14 --limit 20 --format json
+bun run .agents/skills/himalayas-search/cli/src/cli.ts search -q "Next.js" -j 14 --limit 20 --format json
+bun run .agents/skills/himalayas-search/cli/src/cli.ts search -q "AI" -s senior -j 14 --limit 20 --format json
 
-```
-site:[YOUR_JOB_BOARD] [YOUR_DOMAIN_KEYWORD_1] [YOUR_CITY] OR [YOUR_REGION]
-site:[YOUR_JOB_BOARD] [YOUR_DOMAIN_KEYWORD_2] [YOUR_COUNTRY]
-site:linkedin.com/jobs [YOUR_DOMAIN_KEYWORD_1] [YOUR_CITY] [YOUR_COUNTRY]
-```
-
-### Priority 3: [YOUR_ADJACENT_ROLE_TYPE]
-
-Adjacent roles you could pivot into.
-
-```
-site:[YOUR_JOB_BOARD] "[YOUR_ADJACENT_TITLE_1]" [YOUR_KEY_SKILL] [YOUR_CITY]
-site:[YOUR_JOB_BOARD] "[YOUR_ADJACENT_TITLE_2]" [YOUR_KEY_SKILL] [YOUR_CITY]
+# Remotive — Software Development Category Filtered
+bun run .agents/skills/remotive-search/cli/src/cli.ts search -q "Frontend" -c "software-dev" -j 14 --limit 20 --format json
+bun run .agents/skills/remotive-search/cli/src/cli.ts search -q "React" -c "software-dev" -j 14 --limit 20 --format json
+bun run .agents/skills/remotive-search/cli/src/cli.ts search -q "TypeScript" -c "software-dev" -j 14 --limit 20 --format json
+bun run .agents/skills/remotive-search/cli/src/cli.ts search -q "Next.js" -c "software-dev" -j 14 --limit 20 --format json
 ```
 
-### Priority 4: Broader Technical / Consulting
+### 4. Company ATS Watchlist (`ats-search`) CLI Commands
 
-Wider net for general technical roles.
+```bash
+# Watchlist-wide keyword searches (Greenhouse, Lever, Ashby)
+bun run .agents/skills/ats-search/cli/src/cli.ts search -q "Frontend" -j 14 --limit 25 --format json
+bun run .agents/skills/ats-search/cli/src/cli.ts search -q "React" -j 14 --limit 25 --format json
+bun run .agents/skills/ats-search/cli/src/cli.ts search -q "TypeScript" -j 14 --limit 25 --format json
+bun run .agents/skills/ats-search/cli/src/cli.ts search -q "Next.js" -j 14 --limit 25 --format json
+bun run .agents/skills/ats-search/cli/src/cli.ts search -q "AI" -j 14 --limit 25 --format json
 
+# Targeted ATS provider searches
+bun run .agents/skills/ats-search/cli/src/cli.ts search -p greenhouse -q "Frontend" --limit 20 --format json
+bun run .agents/skills/ats-search/cli/src/cli.ts search -p ashby -q "Frontend" --limit 20 --format json
+bun run .agents/skills/ats-search/cli/src/cli.ts search -p lever -q "Frontend" --limit 20 --format json
 ```
-site:[YOUR_JOB_BOARD] [YOUR_KEY_SKILL] developer [YOUR_CITY]
-site:linkedin.com/jobs "[YOUR_KEY_SKILL] developer" [YOUR_CITY]
-site:[YOUR_JOB_BOARD] "technical consultant" [YOUR_DOMAIN] [YOUR_CITY]
+
+### 5. `waas-search` (Y Combinator Work at a Startup) CLI Commands
+
+```bash
+# Global Remote & YC Startup Searches (Frontend, React, Fullstack, AI)
+bun run .agents/skills/waas-search/cli/src/cli.ts search -q "Frontend" --remote --limit 20 --format json
+bun run .agents/skills/waas-search/cli/src/cli.ts search -q "React" --remote --limit 20 --format json
+bun run .agents/skills/waas-search/cli/src/cli.ts search -q "Next.js" --remote --limit 20 --format json
+bun run .agents/skills/waas-search/cli/src/cli.ts search -q "Full stack" --remote --limit 20 --format json
+bun run .agents/skills/waas-search/cli/src/cli.ts search -q "AI" --remote --limit 20 --format json
 ```
 
-## Location Filter
+---
 
-When evaluating results, verify the job location is within reasonable commute distance from your home. Define acceptable areas:
-- [YOUR_CITY] and surrounding areas
-- [ACCEPTABLE_AREA_1]
-- [ACCEPTABLE_AREA_2]
-- [BORDERLINE_AREA] (borderline - ~X min by transit)
-- [TOO_FAR_AREA] (too far)
+## WebSearch Fallback Queries
 
-## Language Filter
+For portals without a dedicated CLI (Naukri, Instahyre, Wellfound, WeWorkRemotely, RemoteOK) or when a CLI fails:
 
-Your working languages and levels are in CLAUDE.md's Languages table. When filtering scraped results, apply `04-job-evaluation.md`'s Language Gate: a posting requiring a language you haven't declared at all is excluded; a posting requiring a higher level than you declared in a language you do work in is not excluded, flag it clearly instead (see `job-scraper/SKILL.md`'s Step 3 "Quick Fit Assessment" for how the flag surfaces in `/scrape` output). Postings simply *written* in a language you don't work in, that don't require it on the job, are fine.
+### Priority 1: Senior Frontend Engineering (Global Remote & India)
+```
+site:weworkremotely.com "Senior Frontend" ("React" OR "TypeScript")
+site:remoteok.com "Senior Frontend" ("React" OR "Next.js")
+site:wellfound.com/jobs "Senior Frontend Engineer" React Remote
+site:linkedin.com/jobs "Senior Frontend Engineer" ("React" OR "TypeScript") ("Worldwide" OR "Remote Worldwide" OR "Work from Anywhere")
+site:linkedin.com/jobs "Senior Frontend Engineer" ("React" OR "TypeScript") "San Francisco" OR "Local / Remote" OR "Remote"
+site:naukri.com "Senior Frontend Developer" React TypeScript San Francisco OR Noida OR Remote
+site:instahyre.com "Senior Frontend Engineer" React TypeScript Remote OR San Francisco
+site:workatastartup.com/jobs "Frontend Engineer" Remote
+```
 
-## Date Filter
+### Priority 2: AI Frontend & Agentic Engineering (Global Remote)
+```
+site:weworkremotely.com ("AI Frontend" OR "LLM" OR "AI Engineer") React
+site:wellfound.com/jobs "Frontend Engineer" ("AI" OR "Agents" OR "LLM") ("React" OR "TypeScript") Remote
+site:linkedin.com/jobs "AI Frontend Engineer" ("React" OR "TypeScript") ("Remote" OR "Worldwide")
+site:linkedin.com/jobs "Software Engineer" ("Model Context Protocol" OR "MCP" OR "Agentic") TypeScript Remote
+```
 
-Only include jobs posted within the last 14 days, or with an application deadline that has not yet passed. If a posting date cannot be determined, include it but flag as "date unknown".
+### Priority 3: Product Engineer & Composable Web Architecture (Global Remote)
+```
+site:weworkremotely.com "Product Engineer" ("React" OR "Next.js")
+site:wellfound.com/jobs "Product Engineer" ("Next.js" OR "React") Remote
+site:linkedin.com/jobs "Product Engineer" ("Next.js" OR "React 19") ("Remote" OR "Worldwide")
+site:linkedin.com/jobs "Frontend Engineer" ("SaaS" OR "Multi-tenant") ("React" OR "TypeScript") ("Worldwide" OR "Remote")
+```
 
-## Adapting Queries
+---
 
-If the user specifies a focus area, select queries from the matching category and also generate 2-3 custom queries for that focus. For example:
-- "/scrape [focus_area]" -> relevant category queries + custom focus-specific queries
+## Date & Recency Filter
+
+- Only include jobs posted within the **last 14 days**, or with an active application deadline that has not yet passed.
+- If posting date is not explicitly visible, include and flag as `"date unknown"`.
