@@ -155,11 +155,14 @@ export function formatSalary(job: HimalayasJob): string | null {
   if (job.minSalary == null && job.maxSalary == null) return null
   const cur = job.currency ? `${job.currency} ` : "$"
   const period = job.salaryPeriod ? ` ${job.salaryPeriod}` : ""
+  // The salary string is part of the CLI contract, so the grouping separator must
+  // not follow the machine's locale: pin en-US (120,000) instead of the host default
+  // (a da-DK host would render 120.000 and break the tests and every consumer).
   if (job.minSalary != null && job.maxSalary != null) {
-    return `${cur}${job.minSalary.toLocaleString()}–${job.maxSalary.toLocaleString()}${period}`
+    return `${cur}${job.minSalary.toLocaleString("en-US")}–${job.maxSalary.toLocaleString("en-US")}${period}`
   }
   const val = (job.minSalary ?? job.maxSalary)!
-  return `${cur}${val.toLocaleString()}${period}`
+  return `${cur}${val.toLocaleString("en-US")}${period}`
 }
 
 export function formatDate(pubDate: number | undefined): string | null {
