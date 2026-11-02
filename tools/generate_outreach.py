@@ -8,7 +8,7 @@ Generates 4 high-converting, humanized outreach messages for any tracked or targ
   4. 7-Day Application Follow-Up Email.
 
 Strictly follows:
-  - Career Source of Truth (6.8 YOE, 45d notice, 29 ADRs, 25 Playwright suites, 42 OpenAPI endpoints).
+  - Career Source of Truth (your years, notice period and measured figures).
   - Humanizer rules (zero em dashes, zero AI filler words).
   - Saves to documents/applications/<slug>/outreach_notes.md.
 """
@@ -126,7 +126,7 @@ def build_linkedin_connection_note(
     # Candidate variation C: ultra concise fallback
     note_c = (
         f"{greeting} Applied for {role}. 6.8y frontend experience (React 19, Next.js, TS, "
-        f"29 ADRs, 45d notice). Would love to connect: example.com"
+        f"your measured figures, your notice period). Would love to connect: example.com"
     )
     return note_c[:300]
 
@@ -141,7 +141,7 @@ def build_recruiter_email(
     first_name = extract_first_name(contact_name)
     salutation = f"Hi {first_name}," if first_name else f"Hi {company} Recruiting Team,"
 
-    subject = f"Application: {role} - Alex Doe (6.8 YOE | React/Next.js | 45d Notice)"
+    subject = f"Application: {role} - Alex Doe (N YOE | React/Next.js | notice)"
 
     tech_overlap = "React 19, Next.js (App Router), TypeScript, and automated testing"
     if research and research.get("tech_stack"):
@@ -279,7 +279,7 @@ def generate_outreach_package(
 - **Company:** {company}
 - **Role:** {role}
 - **Contact Person:** {contact_person or "Hiring Team / Engineering Leadership"}
-- **Candidate:** Alex Doe (6.8 YOE | San Francisco / Remote | 45d Notice)
+- **Candidate:** Alex Doe (N YOE | [YOUR_CITY] / Remote | notice)
 
 ---
 

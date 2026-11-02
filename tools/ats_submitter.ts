@@ -6,7 +6,7 @@
  *   1. Navigate to direct job application pages (Ashby, Lever, Greenhouse, Recrew, etc.).
  *   2. Inject verified candidate data from Career Source of Truth.
  *   3. Attach tailored 1-page Resume PDF directly to the file input.
- *   4. Fill custom screening questions (45d notice, ₹28 LPA expected comp, 6.8 YOE).
+ *   4. Fill custom screening questions (notice period, expected comp, years).
  *   5. In --dry-run mode: captures high-res screenshot (submission_preview.png) & validates form.
  *   6. In --submit mode: submits the form, verifies success banner/redirect, captures confirmation
  *      screenshot (submission_confirmed.png), and updates job_search_tracker.csv to 'applied'.

@@ -534,7 +534,7 @@ const COUNTRY = "[[COUNTRY]]";
     toast.innerHTML = `
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
         <span style="font-weight: 700; color: #4ade80; font-size: 14px;">⚡ Auto-Fill Complete</span>
-        <span style="font-size: 11px; color: #94a3b8;">45d Notice | 6.8 YOE</span>
+        <span style="font-size: 11px; color: #94a3b8;">[[NOTICE]] | [[YOE]]</span>
       </div>
       <div style="font-size: 12px; color: #e2e8f0; line-height: 1.4;">
         Populated <strong>${count} fields</strong> (${fields.slice(0, 4).join(", ")}${fields.length > 4 ? ` +${fields.length - 4} more` : ""}).

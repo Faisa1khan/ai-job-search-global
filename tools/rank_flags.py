@@ -18,8 +18,8 @@ answers UNKNOWN when neither states one. It never estimates a band, and it never
 converts one currency to another to manufacture a comparison.
 
 Target ladder (canonical - SOT line 36, mirrored in 01-candidate-profile.md):
-  floor ₹18.5 LPA (never accept below) · anchor ₹24 LPA · target ₹24-28 LPA ·
-  stretch ₹30-34 LPA.
+  floor (never accept below) · anchor · target range · stretch — set your own via
+  JOBSEARCH_FLOOR_INR / JOBSEARCH_ANCHOR_INR / JOBSEARCH_TARGET_HIGH_INR.
 
 The years flag is the third (2026-10-30): /scrape's screen never read how many years a
 posting asks for, and three of five postings reviewed by hand that day carried a floor
@@ -28,7 +28,7 @@ rather than two, and like the other two it only annotates - a parser miss must n
 become a silent drop.
 
 Usage:
-  python3 tools/rank_flags.py comp --band "24-28 LPA"
+  python3 tools/rank_flags.py comp --band "20-24 LPA"
   python3 tools/rank_flags.py comp --text posting.txt
   python3 tools/rank_flags.py tz --text posting.txt
   python3 tools/rank_flags.py years --text posting.txt
@@ -167,7 +167,7 @@ def comp_flag(band_low, band_high, currency="INR", target=ANCHOR_INR):
                          "strong money for the level")
         return out
     out["flag"] = "OK"
-    out["reason"] = "band overlaps the ₹24-28 LPA target range"
+    out["reason"] = f"band overlaps the target range (anchor ₹{target:,})"
     return out
 
 
@@ -390,7 +390,7 @@ def main():
     ap = argparse.ArgumentParser(description="Compensation and timezone flags for rank triage")
     ap.add_argument("mode", choices=["comp", "tz", "years", "both"])
     ap.add_argument("--text", help="posting text file to read the band and/or hours from")
-    ap.add_argument("--band", help='a stated band, e.g. "24-28 LPA"')
+    ap.add_argument("--band", help='a stated band, e.g. "20-24 LPA"')
     ap.add_argument("--band-low", type=int, help="explicit band floor in INR")
     ap.add_argument("--band-high", type=int, help="explicit band top in INR")
     ap.add_argument("--target", type=int, default=ANCHOR_INR,
