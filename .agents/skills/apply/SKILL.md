@@ -294,9 +294,17 @@ Do not proceed to Step 6 until both PDFs pass inspection.
 
 An ATS parser reads the PDF's embedded **text layer**, not the rendered page — a CV that passed visual inspection can still extract as garbage (icon glyphs where the contact details should be, scrambled reading order in multi-column layouts). This step verifies what a parser actually sees. It applies to the **CV only**; cover letters rarely go through keyword screening.
 
-**Availability check:** run `pdftotext -v`. `pdftotext` (poppler) is an optional dependency, not part of TeX distributions. If it is missing, print a one-line warning that the mechanical parse check is skipped, do the keyword-coverage check (item 3 below) against your visual Read of the PDF instead, and note the degraded mode in the Step 6 report. Same graceful-skip pattern as the salary lookup. Keep the `-enc UTF-8` flag: Xpdf-based builds default to Latin-1 output, and without it a correct non-ASCII CV fails the replacement-character check below.
+**Availability check:** extract with `python3 tools/verify_pdf.py` (tries **pypdf** first — BSD, `pip install pypdf` — then Poppler `pdftotext`). If both are missing, print a one-line warning that the mechanical parse check is skipped, do the keyword-coverage check (item 3 below) against your visual Read of the PDF instead, and note the degraded mode in the Step 6 report. Same graceful-skip pattern as the salary lookup. If a documented fallback still shells out to `pdftotext -layout`, keep the `-enc UTF-8` flag: Xpdf-based builds default to Latin-1 output, and without it a correct non-ASCII CV fails the replacement-character check below.
 
 **1. Extract the text layer:**
+
+```bash
+python3 tools/verify_pdf.py cv/main_<company>_<role>.pdf --ascii-dates --dump-text cv/main_<company>_<role>.txt
+```
+
+`--ascii-dates` is the date-range check from `05-cv-templates.md` ("Date fields must be ASCII ranges"): it exits 1 if the raw text layer has a year joined to a Unicode dash - the en-dash LaTeX makes from `--`, which a Workday import dropped together with the date - naming each hit and its code point. It reads the raw layer, not the folded comparison `--contains` uses, which is why `--contains "2016-2024"` cannot catch this. The dump is written before the check runs, so a failure still leaves the `.txt`. Fix a hit in the `<CV_EXT>` date argument (a single ASCII hyphen), then re-run 5a-5c and re-extract.
+
+The command prints `extractor: pypdf` or `extractor: pdftotext`. Record that name in the Step 6 report. Read the `.txt` file. If that tool is unavailable, the Poppler fallback is:
 
 ```bash
 cd cv && pdftotext -layout -enc UTF-8 main_<company>_<role>.pdf main_<company>_<role>.txt

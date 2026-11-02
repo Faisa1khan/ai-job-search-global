@@ -281,10 +281,10 @@ Restore the highest-relevance item that was previously cut — a CV that ends mi
 Most employers run CVs through an ATS before a human sees them, and the ATS reads the PDF's embedded **text layer**, not the rendered page. A CV can pass visual inspection and still extract as garbage. After the layout passes the compile-and-inspect loop, verify the text layer:
 
 ```bash
-cd cv && pdftotext -layout -enc UTF-8 main_<company>_<role>.pdf main_<company>_<role>.txt
+python3 tools/verify_pdf.py cv/main_<company>_<role>.pdf --dump-text cv/main_<company>_<role>.txt
 ```
 
-`pdftotext` comes from [poppler](https://poppler.freedesktop.org/), not the TeX distribution - it is an **optional** dependency. The `-enc UTF-8` flag is not optional: Xpdf-based `pdftotext` builds default to Latin-1 output, which makes every non-ASCII character in a perfectly good CV read back as a replacement character and fail the parseability check below for no real reason. If it is not installed, skip the mechanical check with a warning and rely on the visual PDF read for keyword coverage.
+`tools/verify_pdf.py` tries **pypdf** first (BSD, `pip install pypdf`) and falls back to Poppler `pdftotext`; it prints which extractor answered, so the Step 6 report can name it. Both are optional dependencies. If neither is available, skip the mechanical check with a warning and rely on the visual PDF read for keyword coverage. When a documented fallback still shells out to `pdftotext`, the `-enc UTF-8` flag is not optional: Xpdf-based builds default to Latin-1 output, which makes every non-ASCII character in a perfectly good CV read back as a replacement character and fail the parseability check below for no real reason.
 
 What to check in the extraction:
 

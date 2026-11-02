@@ -35,6 +35,16 @@ framework_version: 1.1.1
 - Modernized legacy frontend to React 19 and Next.js with accessible component systems.
 - Built high-performance virtualized data grids rendering 50,000+ cells under 150ms latency.
 
+## Independent Projects
+
+### Multi-Tenant Appointment & Queue Platform
+- Next.js 16 (App Router), React 19, TypeScript, PostgreSQL with row-level security enforced in the database, Drizzle as the only data-access layer.
+- Booking state machine that removes double-booking races; 29 architecture decision records; two locales at translation-key parity.
+
+### Open-Source Coding Orchestrator
+- Four-stage pipeline: planner, coder, quality gate, independent reviewer, with git-state safety assertions at every handoff.
+- 31 unit tests across 7 suites; its own CI matrix across three Node versions.
+
 ## Technical Skills
 
 ### Programming & Frontend
@@ -43,3 +53,12 @@ framework_version: 1.1.1
 
 ### Testing & Reliability
 - **Playwright, Vitest, React Testing Library, Sentry Observability, CI/CD**
+
+## Publications
+- None. The heading stays so a reset does not silently drop the section.
+
+## Awards
+- None recorded.
+
+## References
+- Available on request.

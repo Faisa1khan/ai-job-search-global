@@ -71,12 +71,10 @@ def portal_hosts(skill_dir: Path) -> set[str]:
     return hosts
 
 
-def discover_installed_portal_hosts() -> set[str]:
-    return set().union(*(portal_hosts(d) for d in installed_portal_skills()))
-
-
-INSTALLED_PORTAL_HOSTS = discover_installed_portal_hosts()
-
+# Employer ATS apexes. A host on one of these is the employer's own board, never
+# a job portal - even when a CLI in this tree queries it. `ats-search` (this
+# fork's ATS-matrix portal) does exactly that, so discovery has to exclude the
+# apexes or every Greenhouse/Lever/Ashby URL would be labelled a portal posting.
 KNOWN_ATS_APEXES = {
     "greenhouse.io",
     "lever.co",
@@ -86,6 +84,20 @@ KNOWN_ATS_APEXES = {
     "smartrecruiters.com",
     "workable.com",
 }
+
+
+def is_ats_host(host: str) -> bool:
+    """True when the host belongs to an employer ATS apex (never a portal)."""
+    return any(host == apex or host.endswith(f".{apex}") for apex in KNOWN_ATS_APEXES)
+
+
+def discover_installed_portal_hosts() -> set[str]:
+    """Portal hosts, minus any host that belongs to an employer ATS apex."""
+    hosts = set().union(*(portal_hosts(d) for d in installed_portal_skills()))
+    return {host for host in hosts if not is_ats_host(host)}
+
+
+INSTALLED_PORTAL_HOSTS = discover_installed_portal_hosts()
 
 
 
@@ -269,7 +281,15 @@ class InstalledPortalsAreVerifiedTests(unittest.TestCase):
                 for url in (f"https://{host}/job/1", f"https://www.{host}/job/1", f"https://sub.{host}/job/1"):
                     with self.subTest(portal=skill.name, url=url, enabled=portal_enabled(skill)):
                         tier, _ = classify_posting_host(url)
-                        self.assertEqual(tier, "installed_portal", f"{url} classified as {tier}")
+                        if is_ats_host(host):
+                            # `ats-search` is an employer-ATS matrix, not a board:
+                            # the hosts it queries are greenhouse/lever/ashby
+                            # apexes, so a posting there is the EMPLOYER's board
+                            # and must never be labelled a portal. Discovery drops
+                            # these hosts; this branch pins the label they get.
+                            self.assertEqual(tier, "official_ats", f"{url} classified as {tier}")
+                        else:
+                            self.assertEqual(tier, "installed_portal", f"{url} classified as {tier}")
 
     def test_portal_hosts_are_registrable_names_without_www(self):
         for skill in installed_portal_skills():

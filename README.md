@@ -37,6 +37,22 @@
 >
 > This project has **no affiliated cryptocurrency, token, or paid sponsorship program**. Anything claiming otherwise is unauthorized and should be treated as a scam. The only ways to support the project are the Ko-fi link below and contributing on GitHub.
 
+## This fork: `Faisa1khan/ai-job-search-global`
+
+This is a working fork, kept in step with upstream rather than frozen at one commit.
+
+| | |
+|---|---|
+| **Base** | upstream `7f01d75` — v1.7.4, 2026-10-31 (merged 2026-11-02) |
+| **Runtime** | **Google Antigravity / `agy`** instead of Claude Code: the same workflow lives in `.agents/skills/`, with the port rules in `AGENTS.md` |
+| **Adds** | five regional job-board CLIs alongside the stock ones — `jobindex-search`, `jobnet-search`, `jobdanmark-search`, `jobbank-search`, `remotive-search` — plus `ats-search`, a matrix that reads employer boards (Greenhouse, Lever, Ashby, SmartRecruiters, Workday) directly instead of going through a portal |
+| **Verification** | five gates in `tools/verify_all.py`: page count, layout, template markup, prose, and factual grounding |
+| **Not ported** | upstream's `.claude/agents/{posting-fetcher,posting-scorer,application-reviewer}.md` — Antigravity has no `.claude/agents` loader, so those files stay as upstream reference and their behaviour is written into the skills inline |
+
+The production pipeline this fork was cut from is private, and deliberately so: it carries the owner's CV, cover letters and application history. **This repository is the portable subset** — the workflow, the portal CLIs and the verifier — and it is what the upstream maintainer reviewed and indexed in [Discussion #78](https://github.com/MadsLorentzen/ai-job-search/discussions/78).
+
+Fork-only commits: `git log --oneline 7f01d75..HEAD`.
+
 ## Does it actually work?
 
 I'm a geophysicist by training. When my position was cut in late 2025, I built this framework to run my own job search - the same `/scrape`, `/apply`, and `/interview` workflow in this repo, used weekly, on my own career. I was upfront about it with every employer I spoke to, and instead of counting against me, it usually sparked a genuine technical conversation.
