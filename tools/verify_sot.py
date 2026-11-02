@@ -6,7 +6,7 @@ career rules and DO-NOT-CLAIM directives in
   CAREER_SOURCE_OF_TRUTH.md
 
 Enforces (hard failures):
-  1. Canonical numbers (29 ADRs, 25 Playwright suites, 16 modules, 8 Acme modules, 42 OpenAPI endpoints, 10,000+ users).
+  1. Superseded figures (the count your own ledger has replaced with a newer one).
   2. Superseded figures rejection (30 ADRs, 14 suites, 5-6 modules, etc.).
   3. Hard exclusions (KeeLead, PCI-DSS certification claims, US work auth without sponsorship, IIT/NIT pedigree, an unsourced vendor 65%, internal work-item keys).
   4. Scope rule for the platform-scale figures: SOT Section 1/7 allow the 500k/100k
@@ -53,20 +53,20 @@ class SOTVerificationError(Exception):
 
 # Canonical Number & Superseded Figures Rules (Regex, Error Message)
 SUPERSEDED_NUMBERS = [
-    (r"\b30\s+ADRs?\b", "SOT Section 1 violation: Project Nexus has 29 ADRs (30 is superseded/wrong per GitHub commit history)"),
-    (r"\b14\s+(?:test\s+|Playwright\s+)?suites?\b", "SOT Section 1 violation: Project Nexus has 25 Playwright suites (14 is superseded/wrong)"),
-    (r"\b[56]\s+core\s+modules?\b", "SOT Section 1 violation: Acme scope is 8 core modules owned"),
+    (r"\b30\s+ADRs?\b", "SOT Section 1 violation: the ledger records a different ADR count (30 is superseded)"),
+    (r"\b14\s+(?:test\s+|Playwright\s+)?suites?\b", "SOT Section 1 violation: the ledger records a different suite count (14 is superseded)"),
+    (r"\b[56]\s+core\s+modules?\b", "SOT Section 1 violation: the ledger records a different module count"),
 ]
 
 # Hard Exclusions from SOT Section 6 (DO NOT CLAIM)
 HARD_EXCLUSIONS = [
-    (r"\bKeeLead\b", "SOT Section 6 exclusion: KeeLead is a third-party codebase, do not claim"),
+    (r"\bKeeLead\b", "SOT Section 6 exclusion: a third-party codebase, do not claim as your own"),
     (
         r"\bPCI[- ]?DSS\b(?=[^.]*\b(?:certification|certified|certificate|compliant|compliance\s+audit)\b)"
         r"|\b(?:certified|compliant)\s+(?:for|to)?\s*PCI[- ]?DSS\b",
         "SOT Section 6 exclusion: PCI-DSS certification is not held (a workflow/discipline bridge is allowed)",
     ),
-    (r"\b65%[^.]{0,20}UI\s+turnaround\b", "SOT Section 6 exclusion: Refurso '65% UI turnaround' has no source"),
+    (r"\b65%[^.]{0,20}UI\s+turnaround\b", "SOT Section 6 exclusion: an unsourced '65% UI turnaround' figure"),
     (_KEY_RE, "SOT Section 1 & 6 rule: internal work-item keys must not appear on public application documents"),
     (r"\b(?:US\s+citizen|green\s+card|authorized\s+to\s+work\s+in\s+the\s+US\s+without\s+sponsorship)\b", "SOT Section 0 exclusion: US work authorization requires visa sponsorship; never claim US authorization without sponsorship"),
     (r"\b(?:IIT|NIT)\s+(?:graduate|alumnus|degree|pedigree)\b", "SOT Section 6 exclusion: Do not claim or imply IIT/NIT pedigree"),
@@ -77,7 +77,7 @@ HARD_EXCLUSIONS = [
 SCALE_FIGURES = [
     (
         r"\b(?:500[,.]?000\+|500k\+?)\s*(?:employees|users)\b",
-        "SOT Section 6 exclusion: 500k scale must be framed as platform-level, not own scope (canonical own-scope figure: 10,000+ active enterprise users)",
+        "SOT Section 6 exclusion: 500k scale must be framed as platform-level, not own scope",
     ),
     (
         r"\b(?:100[,.]?000\+|100k\+?)\s*(?:monthly\s+)?transactions\b",
@@ -87,7 +87,6 @@ SCALE_FIGURES = [
 
 PLATFORM_FRAMING_MARKERS = (
     "platform",
-    "acme's platform",
     "product line",
     "across the product",
     "serving across",

@@ -86,7 +86,7 @@ def check_dashes_in_prose(line: str) -> list[str]:
     
     Allowed:
       - Starting bullet symbol: '–' or '-' at index 0 (e.g. '– Bullet text')
-      - Date ranges: '2019 – Present', 'Dec 2019 – Present', '2015 – 2019', '10,000+'
+      - Date ranges: '2020 – Present', 'Jan 2020 – Present', '2015 – 2019', '10,000+'
       - Role separator in headers: 'Alex Doe — Frontend SDE-2'
     Forbidden:
       - Em dashes (—) in prose sentences (e.g. 'delivered modules — payroll, attendance')

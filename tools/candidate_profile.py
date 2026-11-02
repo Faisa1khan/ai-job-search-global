@@ -11,10 +11,10 @@ CANDIDATE_PROFILE = {
     "linkedin": "https://linkedin.com/in/[YOUR_LINKEDIN]",
     "portfolio": "https://[YOUR_PORTFOLIO].dev",
     "location": "Remote / Worldwide",
-    "notice_period": "45 days",
+    "notice_period": "[YOUR_NOTICE_PERIOD]",
     "years_experience": "5+",
     "yoe": "5.0 years",
-    "current_company": "Acme Technologies",
+    "current_company": "[YOUR_COMPANY]",
     "current_role": "Senior Software Engineer",
     "core_stack": "React 19, Next.js, TypeScript, Tailwind CSS, Playwright",
     "target_roles": [
@@ -26,10 +26,10 @@ CANDIDATE_PROFILE = {
         "Full Stack Engineer",
     ],
     "metrics": {
-        "adrs": "29 ADRs",
-        "test_suites": "25 Playwright test suites",
-        "openapi_endpoints": "42 OpenAPI endpoints",
-        "enterprise_users": "10,000+ active enterprise users",
-        "virtualization": "50,000+ virtualized data cells",
+        "adrs": "N ADRs",
+        "test_suites": "M test suites",
+        "openapi_endpoints": "P OpenAPI endpoints",
+        "enterprise_users": "your own measured user count",
+        "virtualization": "Q virtualized data cells",
     },
 }

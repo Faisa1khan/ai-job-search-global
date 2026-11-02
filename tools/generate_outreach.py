@@ -154,7 +154,7 @@ def build_recruiter_email(
 I recently submitted my application for the {role} position at {company} and wanted to reach out directly to share context on my background.
 
 Key qualifications from my 6.8 years in frontend engineering:
-- Architecture & Scale: Shipped 8 core HRMS modules and 42 OpenAPI endpoints serving 10,000+ active enterprise users at Acme. Engineered virtualized interfaces rendering 50,000+ data cells with sub-150ms response times.
+- Architecture & Scale: Shipped N core modules and M OpenAPI endpoints serving 10,000+ active enterprise users at Acme. Engineered virtualized interfaces rendering 50,000+ data cells with sub-150ms response times.
 - Modern Web Stack: Built Project Nexus (example.com), a multi-tenant SaaS with Next.js 16, React 19, TypeScript, and Tailwind CSS, backed by 29 Architecture Decision Records (ADRs) and 25 Playwright test suites.
 - Tech Overlap: Hands-on depth across {tech_overlap}.
 - Logistics: Based in San Francisco (open to Remote / Hybrid), notice period is 45 days.

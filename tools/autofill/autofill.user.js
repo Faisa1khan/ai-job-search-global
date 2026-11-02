@@ -110,7 +110,7 @@ const COUNTRY = "[[COUNTRY]]";
     },
     
     // Core Tailored Pitch / Cover Note
-    coverNote: "Senior Software Engineer with 5+ years of experience building high-performance web applications across React 19, Next.js, and TypeScript. Shipped core enterprise modules serving 10,000+ active enterprise users at Acme Technologies."
+    coverNote: "Senior Software Engineer with N years of experience building high-performance web applications across React and TypeScript. Shipped core product modules for enterprise customers."
   };
 
   // ==========================================================================

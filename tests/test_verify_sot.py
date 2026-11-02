@@ -20,13 +20,13 @@ class TestSOTRules(unittest.TestCase):
         lines = [(1, "Guided by 30 ADRs in production.")]
         violations = check_sot_grounding(lines)
         self.assertEqual(len(violations), 1)
-        self.assertIn("29 ADRs", violations[0])
+        self.assertIn("superseded", violations[0])
 
     def test_superseded_test_suites_detected(self):
         lines = [(1, "Validated across 14 test suites in CI.")]
         violations = check_sot_grounding(lines)
         self.assertEqual(len(violations), 1)
-        self.assertIn("25 Playwright suites", violations[0])
+        self.assertIn("superseded", violations[0])
 
     def test_unauthenticated_scale_detected(self):
         lines = [

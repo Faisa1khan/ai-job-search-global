@@ -40,9 +40,9 @@ class TestTrackerUtils(unittest.TestCase):
     def test_candidate_profile_schema(self):
         self.assertEqual(CANDIDATE_PROFILE["name"], "Alex Doe")
         self.assertEqual(CANDIDATE_PROFILE["email"], "user@example.com")
-        self.assertIn("29 ADRs", CANDIDATE_PROFILE["metrics"]["adrs"])
-        self.assertIn("25 Playwright", CANDIDATE_PROFILE["metrics"]["test_suites"])
-        self.assertEqual(CANDIDATE_PROFILE["notice_period"], "45 days")
+        self.assertIn("N ADRs", CANDIDATE_PROFILE["metrics"]["adrs"])
+        self.assertIn("M test suites", CANDIDATE_PROFILE["metrics"]["test_suites"])
+        self.assertEqual(CANDIDATE_PROFILE["notice_period"], "[YOUR_NOTICE_PERIOD]")
 
 
 if __name__ == "__main__":

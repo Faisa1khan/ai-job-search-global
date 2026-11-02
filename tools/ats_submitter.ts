@@ -253,7 +253,7 @@ function getAutofillScript(profile: typeof CANDIDATE): string {
         const val = field.type === 'number' ? PROFILE.expectedCtcFull : PROFILE.expectedCtcDisplay;
         if (setInputValue(field, val)) filled.push('expectedCtc');
       } else if (key.includes('current') && (key.includes('ctc') || key.includes('salary') || key.includes('compensation'))) {
-        const val = field.type === 'number' ? PROFILE.currentCtcFull : "8.4 LPA";
+        const val = field.type === 'number' ? PROFILE.currentCtcFull : PROFILE.currentCtcDisplay;
         if (setInputValue(field, val)) filled.push('currentCtc');
       } else if (key.includes('years') && (key.includes('experience') || key.includes('exp'))) {
         let exp = PROFILE.totalExpInt;
