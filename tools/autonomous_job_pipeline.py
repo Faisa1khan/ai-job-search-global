@@ -746,7 +746,8 @@ def run_pipeline(
         record_application_in_tracker(cand, cv_pdf, cl_pdf, research)
         print("  ✓ Application recorded in tracker")
 
-        packages.append({
+        research_slug = re.sub(r"[^\w]+", "_", comp.lower()).strip("_")
+    packages.append({
             "company": comp,
             "role": role,
             "fit": cand.get("rank_score", 95),
@@ -756,7 +757,7 @@ def run_pipeline(
             "cl_pdf": str(cl_pdf),
             "job_file": str(job_file),
             "outreach_file": outreach_file,
-            "research_file": str(COMPANY_RESEARCH_DIR / f"{re.sub(r'[^\\w]+', '_', comp.lower()).strip('_')}.json"),
+            "research_file": str(COMPANY_RESEARCH_DIR / f"{research_slug}.json"),
         })
 
     duration = (datetime.now() - start_time).total_seconds()
