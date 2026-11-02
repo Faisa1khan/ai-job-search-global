@@ -153,9 +153,9 @@ def build_recruiter_email(
 
 I recently submitted my application for the {role} position at {company} and wanted to reach out directly to share context on my background.
 
-Key qualifications from my 6.8 years in frontend engineering:
-- Architecture & Scale: Shipped N core modules and M OpenAPI endpoints serving your own measured user count at Acme. Engineered virtualized interfaces rendering 50,000+ data cells with sub-150ms response times.
-- Modern Web Stack: Built a multi-tenant SaaS (example.com) with Next.js 16, React 19, TypeScript, and Tailwind CSS, backed by 29 Architecture Decision Records (ADRs) and 25 Playwright test suites.
+Key qualifications from my N years in frontend engineering:
+- Architecture & Scale: Shipped N core modules and M OpenAPI endpoints serving your own measured user count at Acme. Engineered virtualized interfaces rendering large data sets with sub-frame response times.
+- Modern Web Stack: Built a multi-tenant SaaS (example.com) with Next.js 16, React 19, TypeScript, and Tailwind CSS, backed by N Architecture Decision Records (ADRs) and M test suites.
 - Tech Overlap: Hands-on depth across {tech_overlap}.
 - Logistics: Based in [YOUR_CITY] (open to Remote / Hybrid), notice period is [YOUR_NOTICE_PERIOD].
 
@@ -194,9 +194,9 @@ def build_eng_manager_email(
 
 I saw that {company} is looking for a {role} to work on {domain_pain}.
 
-Over the past 6.8 years, my focus has been on frontend architecture, state machine predictability, and client-side performance. Most recently:
-1. Multi-tenant SaaS (example.com): Built on Next.js 16 and React 19 from ground up. Documented N Architecture Decision Records (ADRs) and authored 25 Playwright end-to-end test suites covering all critical state workflows.
-2. Enterprise Scale: Integrated N OpenAPI endpoints across cross-service boundaries and optimized complex data grids to virtualize 50,000+ cells with zero UI freezing.
+Over the past N years, my focus has been on frontend architecture, state machine predictability, and client-side performance. Most recently:
+1. Multi-tenant SaaS (example.com): Built on Next.js 16 and React 19 from ground up. Documented N Architecture Decision Records (ADRs) and authored M end-to-end test suites covering all critical state workflows.
+2. Enterprise Scale: Integrated N OpenAPI endpoints across cross-service boundaries and optimized complex data grids to virtualize large data sets with zero UI freezing.
 3. Quality & Reliability: Enforce strict TypeScript generics, deterministic state transitions, and automated regression testing.
 
 I would love to learn more about the technical challenges your engineering team is solving at {company} and see if my background can help accelerate your roadmap.
