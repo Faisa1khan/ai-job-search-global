@@ -93,17 +93,20 @@ class TestHumanizerRules(unittest.TestCase):
         self.assertTrue(any("Great question" in v for v in violations))
 
     def test_prohibited_sot_claims_detected(self):
+        # The humanizer applies the same rule file as gate 5, so it catches the
+        # example ruleset's claims plus the built-in internal-key rule.
         lines = [
-            (1, "Guided by 30 ADRs and 14 test suites."),
-            (2, "Scaled own delivery to 500k employees."),
-            (3, "Fixed bug TICKET-123 in production."),
+            (1, "Guided by 12 ADRs in production."),
+            (2, "Holds ISO 27001 certification."),
+            (3, "I serve 500,000 employees."),
+            (4, "Fixed bug TICKET-123 in production."),
         ]
         violations = check_humanizer(Path("test.html"), lines)
-        self.assertEqual(len(violations), 4)  # 30 ADRs, 14 test suites, 500k, internal key
+        self.assertEqual(len(violations), 4)
 
     def test_platform_framed_scale_is_not_flagged(self):
         lines = [
-            (1, "Built recruitment AI on a platform serving 500k+ employees."),
+            (1, "Built recruitment AI on a platform serving 500,000 employees."),
         ]
         self.assertEqual(check_humanizer(Path("test.html"), lines), [])
 

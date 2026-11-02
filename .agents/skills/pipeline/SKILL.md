@@ -87,7 +87,7 @@ python3 tools/pipeline.py compile --html cover_letters/Cover_Letter_<Company>.ht
 2. **Gate 2 (`verify_layout.py`):** Layout fill & balanced margins (max bottom whitespace ≤ 75pt / ~9.5%).
 3. **Gate 3 (`verify_template.py`):** 100% exact Master markup, DOM class hierarchy, CSS styling, and print margins.
 4. **Gate 4 (`verify_humanizer.py`):** Zero prose dashes (—), zero banned AI vocabulary, active voice.
-5. **Gate 5 (`verify_sot.py`):** 100% factual grounding against `CAREER_SOURCE_OF_TRUTH.md`.
+5. **Gate 5 (`verify_sot.py`):** 100% factual grounding against `CAREER_SOURCE_OF_TRUTH.md`. The claim rules are data: copy `tools/sot_rules.example.json` to `sot_rules.json` (or point `JOBSEARCH_SOT_RULES` at a path) and put YOUR ledger's claims in it, because a rule hardcoded in a template checks somebody else's CV.
 
 - If either document overflows 1 page, adjust content conciseness (trim bullet length or whitespace) and re-compile.
 - If underfilled (excessive bottom whitespace), restore relevant evidence/bullets from Master.

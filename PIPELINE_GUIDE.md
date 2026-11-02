@@ -145,7 +145,7 @@ The headless Chromium PDF pipeline executes the complete 5-gate test suite on ev
 - **Gate 2 (`tools/verify_layout.py`):** Measures exact word bounding boxes to verify balanced margins (little space top ~0.36in, little space bottom ~0.36-0.6in, max bottom whitespace ≤ 75pt / ~9.5%), preventing underfilled half-empty pages.
 - **Gate 3 (`tools/verify_template.py`):** Asserts 100% exact Master markup hierarchy, DOM classes (`div.header`, `div.section`, `div.entry`, etc.), CSS typography rules, and print margins (`0.36in 0.44in`).
 - **Gate 4 (`tools/verify_humanizer.py`):** Scans for prose em dashes (`—`), banned AI stock vocabulary ("leverage", "spearheaded", "pivotal"), and robotic transitions.
-- **Gate 5 (`tools/verify_sot.py`):** Ensures all metrics and dates strictly match `CAREER_SOURCE_OF_TRUTH.md`.
+- **Gate 5 (`tools/verify_sot.py`):** Ensures all metrics and dates strictly match `CAREER_SOURCE_OF_TRUTH.md`. Claim rules live in `sot_rules.json` (start from `tools/sot_rules.example.json`, or set `JOBSEARCH_SOT_RULES`), so the gate enforces your own ledger rather than whichever CV the template came from.
 - **Skill Linting:** Ensure all skills comply with YAML standards:
   ```bash
   python3 tools/lint_skills.py

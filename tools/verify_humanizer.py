@@ -8,7 +8,8 @@ defined in .agents/skills/humanizer/SKILL.md and grounding rules in AGENTS.md:
   3. Staged openers and rhetorical transitions ('Let's dive in', 'Real talk', 'Here is how').
   4. Chatbot residue ('I hope this helps', 'Great question!', 'Certainly!').
   5. Not-X-but-Y formulas in prose ('not just X, but Y').
-  6. Prohibited or superseded SOT claims (30 ADRs -> 29, 14 suites -> 25, 500k claims, Jira QN keys).
+  6. Claims the SOT rule file forbids (superseded figures, unheld certifications,
+     internal work-item keys), applied through the same engine as gate 5.
 """
 
 from __future__ import annotations
@@ -26,21 +27,16 @@ from doc_extract import (
     extract_prose_from_text,
     ExtractionError,
 )
-from verify_sot import SCALE_FIGURES, has_platform_framing, _KEY_RE
+from verify_sot import check_sot_grounding, load_rules
 
 
 class HumanizerError(Exception):
     """Raised when text violates humanizer or grounding rules."""
 
 
-# Prohibited SOT claims & superseded figures
-# (platform-scale figures are handled by SCALE_FIGURES below: SOT Section 1/7
-# allow them when framed as platform-level, Section 6 forbids own-scope use.)
-SOT_PROHIBITED = [
-    (r"\b30\s+ADRs?\b", "Superseded ledger figure: the ADR count was replaced (never the older 30)"),
-    (r"\b14\s+(?:test\s+)?suites?\b", "Superseded ledger figure: the test-suite count was replaced (never the older 14)"),
-    (_KEY_RE, "Prohibited internal key: internal work-item keys must not appear on public documents"),
-]
+# Prohibited SOT claims: superseded figures are enforced by the shared rule file
+# (tools/sot_rules.json or its example), so the humanizer and gate 5 cannot drift.
+SOT_PROHIBITED: list[tuple[str, str]] = []
 
 
 # Prohibited AI stock vocabulary
@@ -116,6 +112,7 @@ def check_humanizer(
 ) -> list[str]:
     """Run all humanizer rule checks on extracted prose lines."""
     violations = []
+    sot_rules = load_rules()
 
     for line_num, line in prose_lines:
         # 1. Dashes check
@@ -141,18 +138,10 @@ def check_humanizer(
             if match:
                 violations.append(f"Line {line_num}: {msg} in {line[:80]!r}")
 
-        # 5. Prohibited SOT claims
-        for pattern, msg in SOT_PROHIBITED:
-            match = re.search(pattern, line, re.IGNORECASE)
-            if match:
-                violations.append(f"Line {line_num}: {msg} in {line[:80]!r}")
-
-        # 5b. Platform-scale figures: only a violation without platform framing
-        # (SOT Section 1/7 allow 500k/100k as platform-level figures).
-        for pattern, msg in SCALE_FIGURES:
-            match = re.search(pattern, line, re.IGNORECASE)
-            if match and not has_platform_framing(line):
-                violations.append(f"Line {line_num}: {msg} in {line[:80]!r}")
+        # 5. SOT grounding: the same rule file gate 5 applies, so the two cannot drift.
+        violations.extend(
+            check_sot_grounding([(line_num, line)], rules=sot_rules)
+        )
 
         # 6. Not-X-but-Y formulas in prose
         if re.search(r"\bnot just\b.+?\bbut\b", line, re.IGNORECASE) or re.search(r"\bnot only\b.+?\bbut\b", line, re.IGNORECASE):

@@ -1,84 +1,174 @@
-"""Unit tests for tools/verify_sot.py."""
+"""Unit tests for tools/verify_sot.py.
 
+The gate is a mechanism, so these tests build rule sets in a temp directory and
+check both directions: a document that breaks a rule fails, a document that keeps
+it passes. Nothing here depends on any particular candidate's claims.
+"""
+
+import json
+import os
+import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
-from tools.verify_sot import check_sot_grounding, verify_sot
+from tools.verify_sot import (
+    EXAMPLE_RULES_PATH,
+    SOTVerificationError,
+    check_sot_grounding,
+    load_rules,
+)
+
+RULES = {
+    "platform_framing_markers": ["platform", "product line"],
+    "superseded_figures": [
+        {"pattern": r"\b12\s+ADRs?\b", "message": "the ADR count is superseded"},
+    ],
+    "hard_exclusions": [
+        {"pattern": r"\b(?:ISO|SOC)\s*2?\s*27001\b", "message": "certification not held"},
+    ],
+    "scale_figures": [
+        {"pattern": r"\b\d{3}[,.]?000\+?\s+employees\b", "message": "needs platform framing"},
+    ],
+    "advisory_metrics": [
+        {"pattern": r"\bp9\d\s+latency\b", "message": "percentile latency needs its method"},
+    ],
+}
 
 
-class TestSOTRules(unittest.TestCase):
-    def test_canonical_numbers_pass(self):
-        lines = [
-            (1, "Project X: 12 ADRs, 9 test suites, and 16 feature modules."),
-            (2, "Acme: delivered across N core modules, serving a platform-scale user base."),
-            (3, "Integrated 30 OpenAPI endpoints against a partner gateway."),
-        ]
-        violations = check_sot_grounding(lines)
-        self.assertEqual(violations, [])
+class SOTRuleTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.rules_path = Path(self.tmp.name) / "rules.json"
+        self.rules_path.write_text(json.dumps(RULES), encoding="utf-8")
+        self.rules = load_rules(self.rules_path)
 
-    def test_superseded_adrs_detected(self):
-        lines = [(1, "Guided by 30 ADRs in production.")]
-        violations = check_sot_grounding(lines)
+    def tearDown(self) -> None:
+        self.tmp.cleanup()
+
+    def check(self, lines, warnings=None):
+        return check_sot_grounding(lines, warnings=warnings, rules=self.rules)
+
+
+class TestRuleLoading(SOTRuleTestCase):
+    def test_classes_compiled(self):
+        self.assertEqual(len(self.rules["superseded_figures"]), 1)
+        self.assertEqual(len(self.rules["hard_exclusions"]), 2)  # rule + built-in key rule
+        self.assertEqual(len(self.rules["scale_figures"]), 1)
+        self.assertEqual(len(self.rules["advisory_metrics"]), 1)
+        self.assertEqual(self.rules["source"], str(self.rules_path))
+
+    def test_shipped_example_is_valid(self):
+        rules = load_rules(EXAMPLE_RULES_PATH)
+        self.assertEqual(rules["source"], str(EXAMPLE_RULES_PATH))
+        self.assertTrue(rules["hard_exclusions"])
+
+    def test_malformed_json_raises(self):
+        bad = Path(self.tmp.name) / "bad.json"
+        bad.write_text("{not json", encoding="utf-8")
+        with self.assertRaises(SOTVerificationError):
+            load_rules(bad)
+
+    def test_invalid_regex_raises(self):
+        bad = Path(self.tmp.name) / "badre.json"
+        bad.write_text(json.dumps({"hard_exclusions": [{"pattern": "(", "message": "x"}]}), encoding="utf-8")
+        with self.assertRaises(SOTVerificationError):
+            load_rules(bad)
+
+    def test_missing_explicit_path_raises(self):
+        with self.assertRaises(SOTVerificationError):
+            load_rules(Path(self.tmp.name) / "absent.json")
+
+    def test_env_var_selects_rule_file(self):
+        with mock.patch.dict(os.environ, {"JOBSEARCH_SOT_RULES": str(self.rules_path)}, clear=False):
+            rules = load_rules()
+        self.assertEqual(rules["source"], str(self.rules_path))
+
+
+class TestSupersededFigures(SOTRuleTestCase):
+    def test_superseded_figure_fails(self):
+        violations = self.check([(1, "Guided by 12 ADRs in production.")])
         self.assertEqual(len(violations), 1)
         self.assertIn("superseded", violations[0])
 
-    def test_superseded_test_suites_detected(self):
-        lines = [(1, "Validated across 14 test suites in CI.")]
-        violations = check_sot_grounding(lines)
+    def test_current_figure_passes(self):
+        self.assertEqual(self.check([(1, "Guided by 29 ADRs in production.")]), [])
+
+
+class TestHardExclusions(SOTRuleTestCase):
+    def test_exclusion_fails(self):
+        violations = self.check([(1, "Holds ISO 27001 certification.")])
         self.assertEqual(len(violations), 1)
-        self.assertIn("superseded", violations[0])
+        self.assertIn("certification not held", violations[0])
 
-    def test_unauthenticated_scale_detected(self):
-        lines = [
-            (1, "Scaled to 500,000+ employees across regions."),
-            (2, "Handled 100k monthly transactions."),
-        ]
-        violations = check_sot_grounding(lines)
-        self.assertEqual(len(violations), 2)
-        self.assertTrue(any("500k scale" in v for v in violations))
-        self.assertTrue(any("100k" in v for v in violations))
+    def test_work_item_key_fails_by_default(self):
+        violations = self.check([(1, "Resolved TICKET-123 in sprint 4.")])
+        self.assertEqual(len(violations), 1)
+        self.assertIn("work-item", violations[0])
 
-    def test_platform_framed_scale_is_allowed(self):
-        # SOT Section 1/7: the platform figure is valid when attributed to the platform.
-        lines = [
-            (1, "Integrated Gemini AI into recruitment on a platform serving 500k+ employees."),
-            (2, "Acme platform scale: 100,000+ monthly payroll transactions."),
-        ]
-        self.assertEqual(check_sot_grounding(lines), [])
+    def test_work_item_prefix_is_configurable(self):
+        with mock.patch.dict(os.environ, {"JOBSEARCH_INTERNAL_KEY_PREFIXES": "ACME"}, clear=False):
+            rules = load_rules(self.rules_path)
+        violations = check_sot_grounding([(1, "Resolved ACME-77.")], rules=rules)
+        self.assertEqual(len(violations), 1)
+        self.assertEqual(check_sot_grounding([(1, "Resolved TICKET-123.")], rules=rules), [])
 
-    def test_pci_dss_certification_claim_detected_but_bridge_allowed(self):
+
+class TestScaleFigures(SOTRuleTestCase):
+    def test_unframed_scale_fails(self):
+        violations = self.check([(1, "Scaled to 500,000 employees across regions.")])
+        self.assertEqual(len(violations), 1)
+        self.assertIn("platform framing", violations[0])
+
+    def test_platform_framed_scale_passes(self):
         self.assertEqual(
-            len(check_sot_grounding([(1, "Holds PCI-DSS certification.")])),
-            1,
-        )
-        self.assertEqual(
-            check_sot_grounding([(1, "Audit discipline closer to what PCI-DSS workflows demand.")]),
+            self.check([(1, "Shipped on a platform serving 500,000 employees.")]),
             [],
         )
 
-    def test_advisory_metrics_warn_without_failing(self):
-        warnings: list[str] = []
-        lines = [
-            (1, "Reduced Time-to-Interactive from 2.1s to 120ms."),
-            (2, "Eliminated an 800ms freeze with a closed-form calculation."),
-        ]
-        self.assertEqual(check_sot_grounding(lines, warnings=warnings), [])
-        self.assertEqual(len(warnings), 2)
-        self.assertTrue(all("advisory" in w for w in warnings))
+    def test_custom_framing_markers_respected(self):
+        custom = Path(self.tmp.name) / "custom.json"
+        custom.write_text(
+            json.dumps(
+                {
+                    "platform_framing_markers": ["suite"],
+                    "scale_figures": [{"pattern": r"\b\d{3}[,.]?000\+?\s+employees\b", "message": "m"}],
+                }
+            ),
+            encoding="utf-8",
+        )
+        rules = load_rules(custom)
+        self.assertEqual(check_sot_grounding([(1, "The suite serves 500,000 employees.")], rules=rules), [])
+        self.assertEqual(
+            len(check_sot_grounding([(1, "I serve 500,000 employees.")], rules=rules)),
+            1,
+        )
 
-    def test_hard_exclusions_detected(self):
-        lines = [
-            (1, "Built KeeLead payment workflows."),
-            (2, "Holds PCI-DSS certification."),
-            (3, "Resolved ticket TICKET-123 in sprint 4."),
-            (4, "Claimed a US green card authorization."),
-            (5, "Refurso's 65% UI turnaround."),
-        ]
-        violations = check_sot_grounding(lines)
-        self.assertEqual(len(violations), 5)
-        self.assertTrue(any("KeeLead" in v for v in violations))
-        self.assertTrue(any("PCI-DSS" in v for v in violations))
-        self.assertTrue(any("work-item" in v for v in violations))
+
+class TestAdvisories(SOTRuleTestCase):
+    def test_advisory_warns_without_failing(self):
+        warnings: list[str] = []
+        violations = self.check([(1, "Improved p95 latency by 40%.")], warnings=warnings)
+        self.assertEqual(violations, [])
+        self.assertEqual(len(warnings), 1)
+        self.assertIn("advisory", warnings[0])
+
+    def test_advisory_absent_when_no_match(self):
+        warnings: list[str] = []
+        self.check([(1, "Improved the interface.")], warnings=warnings)
+        self.assertEqual(warnings, [])
+
+
+class TestNoRules(SOTRuleTestCase):
+    def test_empty_ruleset_only_checks_work_item_keys(self):
+        bare = Path(self.tmp.name) / "bare.json"
+        bare.write_text("{}", encoding="utf-8")
+        rules = load_rules(bare)
+        self.assertEqual(check_sot_grounding([(1, "Guided by 12 ADRs.")], rules=rules), [])
+        self.assertEqual(
+            len(check_sot_grounding([(1, "Closed PROJ-1.")], rules=rules)),
+            1,
+        )
 
 
 if __name__ == "__main__":

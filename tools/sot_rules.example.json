@@ -1,0 +1,37 @@
+{
+  "_comment": "Example rule file for tools/verify_sot.py. Copy to sot_rules.json (or point JOBSEARCH_SOT_RULES at your own path) and replace these with the claims YOUR ledger actually makes. Four classes: superseded_figures and hard_exclusions fail a document; scale_figures fail only when the line does not attribute the number to the platform; advisory_metrics never fail, they print beside the result. Internal work-item keys are checked without a rule entry: set JOBSEARCH_INTERNAL_KEY_PREFIXES.",
+  "platform_framing_markers": [
+    "platform",
+    "product line",
+    "across the product",
+    "serving across"
+  ],
+  "superseded_figures": [
+    {
+      "pattern": "\\b12\\s+ADRs?\\b",
+      "message": "the ledger records a different ADR count; 12 is superseded"
+    }
+  ],
+  "hard_exclusions": [
+    {
+      "pattern": "\\b(?:certified|holds?|have)\\s+(?:an?\\s+)?(?:ISO|SOC)\\s*2?\\s*(?:27001|certification)?\\b",
+      "message": "do not claim a certification the ledger does not record"
+    },
+    {
+      "pattern": "\\b(?:US\\s+citizen|green\\s+card|authori[sz]ed\\s+to\\s+work\\s+in\\s+the\\s+US\\s+without\\s+sponsorship)\\b",
+      "message": "work authorization claims need a matching ledger row"
+    }
+  ],
+  "scale_figures": [
+    {
+      "pattern": "\\b\\d{3}[,.]?000\\+?\\s+(?:employees|users|customers)\\b",
+      "message": "a six-figure scale needs to be attributed to the platform, not to your own scope"
+    }
+  ],
+  "advisory_metrics": [
+    {
+      "pattern": "\\bp9\\d\\s+latency\\b",
+      "message": "percentile latency is the kind of number that needs its measurement method attached"
+    }
+  ]
+}
