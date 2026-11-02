@@ -40,7 +40,7 @@ const CANDIDATE = {
   github: "https://github.com/alexdoe",
   portfolio: "https://[YOUR_PORTFOLIO].dev",
   noticePeriodDays: "45",
-  noticePeriodText: "45 days",
+  noticePeriodText: PROFILE.noticePeriodText,
   expectedCtcLakhs: "150",
   expectedCtcFull: "150000",
   expectedCtcDisplay: "$150,000",

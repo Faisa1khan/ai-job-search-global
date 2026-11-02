@@ -44,7 +44,7 @@ Keep answers to 1-2 minutes. Be specific. End with what you learned or would do 
 ## Common Tough Questions
 
 ### "Why are you looking for a new opportunity?"
-> "I've spent over 6 years at Acme building deep domain expertise in multi-country HRMS, payroll, and complex frontend architectures. Having led major React modernizations, statutory engines, and AI integrations, I am looking to take on my next challenge—either as a Senior Frontend / Lead Product Engineer in a high-growth product SaaS or AI-driven company where I can drive large-scale web architecture."
+> "I've spent the last several years at Acme building deep domain expertise in multi-country HRMS, payroll, and complex frontend architectures. Having led major React modernizations, statutory engines, and AI integrations, I am looking to take on my next challenge—either as a Senior Frontend / Lead Product Engineer in a high-growth product SaaS or AI-driven company where I can drive large-scale web architecture."
 
 ### "How do you stay up-to-date with frontend and AI developments?"
 > "I actively build and ship independent open-source and SaaS projects. For example, I built Project Nexus on Next.js 16/React 19 with Tailwind v4, engineered `agy-orchestrator` (a multi-model coding CLI with review gates), and created Universal AI Brain using the Model Context Protocol (MCP) and telemetry."

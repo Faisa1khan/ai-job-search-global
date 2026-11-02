@@ -90,7 +90,7 @@ All factual claims, numbers, and dates must strictly trace to [`CAREER_SOURCE_OF
 - **Excluded Claims (Strictly Prohibited):**
   - **ZERO Jira ticket counts or QN keys** on CVs or cover letters.
   - **NEVER claim US work authorization** (requires visa sponsorship).
-  - **Notice period is 45 days**.
+  - **Notice period is your own**.
 
 ### B. Locked Master Document Design System
 Both documents must preserve the visual system established in the master reference files:

@@ -70,7 +70,7 @@ const COUNTRY = "[[COUNTRY]]";
     noticePeriodDays: "45",
     noticePeriodWeeks: "6",
     noticePeriodMonths: "1.5",
-    noticePeriodText: "45 days",
+    noticePeriodText: "[[NOTICE_PERIOD]]",
     servingNotice: "No",
     expectedCtcLakhs: "150",
     expectedCtcFull: "150000",

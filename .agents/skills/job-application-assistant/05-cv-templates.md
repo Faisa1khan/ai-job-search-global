@@ -145,7 +145,7 @@ When the role sits outside your home domain, **lead with the domain-transfer arg
 **Create 2-3 profile statement templates for your main role types:**
 
 **For Senior Frontend Engineer / Frontend Lead roles:**
-> Frontend Engineer with 6+ years building scalable, mission-critical enterprise SaaS applications (React, TypeScript, Next.js, Redux Toolkit). Deep domain specialization in multi-country HRMS, payroll computation, and statutory compliance across India, UAE, and Malaysia. Experienced in modernizing legacy architectures, building robust state machines, and shipping high-performance web products with strong test coverage (Playwright, Vitest).
+> Frontend Engineer with several years building scalable, mission-critical enterprise SaaS applications (React, TypeScript, Next.js, Redux Toolkit). Deep domain specialization in multi-country HRMS, payroll computation, and statutory compliance across India, UAE, and Malaysia. Experienced in modernizing legacy architectures, building robust state machines, and shipping high-performance web products with strong test coverage (Playwright, Vitest).
 
 **For Fullstack / Product Engineer / AI Application roles:**
 > Product-minded engineer with 6+ years specializing in modern React/Next.js/TypeScript frontends and fullstack architectures (Node.js, PostgreSQL, Supabase). Proven track record architecting multi-tenant platforms, AI agent knowledge systems (MCP, Gemini), and complex business workflows with strict architectural discipline (ADRs, state machines).
