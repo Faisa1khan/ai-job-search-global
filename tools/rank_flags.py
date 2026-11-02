@@ -70,7 +70,7 @@ IST_OFFSET = 5.5
 
 
 def to_int_inr(amount, unit=None):
-    """'24' + LPA -> 2400000 ; '1800000' -> 1800000 ; None -> None."""
+    """'12' + LPA -> 1200000 ; '800000' -> 800000 ; None -> None."""
     if amount is None:
         return None
     value = float(str(amount).replace(",", ""))

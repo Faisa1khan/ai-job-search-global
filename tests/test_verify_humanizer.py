@@ -99,7 +99,7 @@ class TestHumanizerRules(unittest.TestCase):
             (3, "Fixed bug TICKET-123 in production."),
         ]
         violations = check_humanizer(Path("test.html"), lines)
-        self.assertEqual(len(violations), 4)  # 30 ADRs, 14 test suites, 500k, QN-4633
+        self.assertEqual(len(violations), 4)  # 30 ADRs, 14 test suites, 500k, internal key
 
     def test_platform_framed_scale_is_not_flagged(self):
         lines = [

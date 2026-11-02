@@ -40,8 +40,8 @@ Works out-of-the-box across all major job portals and Applicant Tracking Systems
 * **📄 Resume Dropzone Highlighter:** Highlights the file upload dropzone in a bright dashed border with a clear badge so you can drag-and-drop your tailored PDF in one second.
 * **📋 1-Click Copy Cover Note:** Automatically copies your tailored pitch / cover note to your clipboard whenever you auto-fill.
 * **Comprehensive Screening Logic:**
-  * **Notice Period:** 45 days (45)
-  * **Expected CTC:** ₹28 LPA (`28` / `2800000` / `$110,000`)
-  * **Current CTC:** 8.4 LPA (`8.4` / `840000`)
-  * **Experience:** Total 6.8 YOE (React: 6, Next.js: 4, TS: 6, Testing: 5, Node: 4, Python: 3)
+  * **Notice Period:** your notice period, in days
+  * **Expected CTC:** your expected figure, in the units the form asks for
+  * **Current CTC:** your current figure, same units
+  * **Experience:** total years, plus per-technology years if the form asks for them
   * **Work Authorization & Relocation:** Pre-sets standard yes/no answers for India/Remote.

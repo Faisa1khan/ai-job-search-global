@@ -31,7 +31,7 @@ framework_version: 1.1.1
 ## Professional Experience
 
 ### Senior Software Engineer - Acme Technologies (2020 - Present)
-- Own frontend delivery across core enterprise SaaS modules serving 10,000+ active enterprise users.
+- Own frontend delivery across core product modules for enterprise customers.
 - Modernized legacy frontend to React 19 and Next.js with accessible component systems.
 - Built high-performance virtualized data grids rendering 50,000+ cells under 150ms latency.
 

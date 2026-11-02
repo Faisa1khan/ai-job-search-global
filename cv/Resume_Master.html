@@ -384,12 +384,12 @@
           <div class="entry-meta">Dec 2019 – Present · [YOUR_LOCATION]</div>
         </div>
         <ul>
-          <li>Own end-to-end delivery across <strong>8 core HRMS modules</strong>: Payroll, Statutory Compliance, Attendance, Leave, L&amp;D, Recruitment, Onboarding, Exit. Multi-country SaaS (<strong>US, UK, and APAC</strong>), including web + mobile payroll self-service for <strong>10,000+ users</strong></li>
-          <li>Engineer a <strong>deterministic payroll computation engine</strong> (CTC, gross-to-net, ESI/PF/TDS), solving the <strong>ESI↔balancing-head circular dependency</strong> with a <strong>closed-form algebraic solution</strong> under the ₹21,000 ceiling in single pass, no re-render or state divergence</li>
-          <li>Led <strong>AngularJS → React 18 / TypeScript</strong> modernization of Setup &amp; Employee surfaces (<strong>Redux Toolkit</strong>, state machines, shared <strong>accessible</strong> component library with ARIA/keyboard support) via <strong>NGINX hybrid routing</strong>, zero-downtime</li>
-          <li>Integrated <strong>42 external OpenAPI endpoints</strong> against a <strong>.NET Core payroll gateway</strong> (+ Laravel bridge), with schema-parity auditing across C#/JS boundaries; root-caused a cast bug unblocking 5 production endpoints</li>
-          <li>Shipped <strong>statutory compliance &amp; analytics reporting</strong> across <strong>multiple jurisdictions</strong> (PT, LWF, Bonus, Gratuity, Form 16) + UAE WPS + Malaysia, with a virtualized engine rendering <strong>50,000+ cells</strong>, zero missed deadlines; dual-mode search cut latency to <strong>&lt;150ms</strong> on <strong>5,000+ records</strong></li>
-          <li>Delivered <strong>AI into a live enterprise product</strong>: <strong>Gemini</strong> resume parsing (<strong>~70%</strong> faster), candidate matching (<strong>&gt;50%</strong> shortlisting), auto JD generation (hours → seconds)</li>
+          <li>Own end-to-end delivery across <strong>N product modules</strong>: payroll, compliance, attendance, leave. Multi-tenant SaaS on PostgreSQL with <strong>row-level security</strong> enforced in the database rather than the application.</li>
+          <li>Engineer a <strong>deterministic computation engine</strong> (gross-to-net, statutory contributions), resolving a <strong>circular dependency</strong> between two computed heads with a <strong>closed-form algebraic solution</strong> instead of an iterative loop.</li>
+          <li>Led a <strong>framework modernization</strong> from a legacy generation to <strong>React 18 / TypeScript</strong> (<strong>Redux Toolkit</strong>, state machines, a shared <strong>accessible</strong> component library), both generations served side by side during the migration.</li>
+          <li>Integrated <strong>M external OpenAPI endpoints</strong> against a <strong>partner gateway</strong>, with schema-parity auditing across two language boundaries; root-caused a cast defect that surfaced on five endpoints.</li>
+          <li>Shipped <strong>compliance and analytics reporting</strong> across <strong>multiple jurisdictions</strong>, with a virtualized grid that stays responsive on high-volume exports.</li>
+          <li>Delivered <strong>AI into a live product</strong>: <strong>LLM</strong>-based document parsing and candidate matching behind a human review step, with accuracy measured before rollout.</li>
         </ul>
       </div>
 
@@ -398,14 +398,14 @@
           <div class="entry-title">Independent / Self-employed <span class="role">— AI Systems &amp; Product Engineer</span></div>
           <div class="entry-meta">Jun 2026 – Present · [YOUR_LOCATION]</div>
         </div>
-        <div class="entry-tech">Next.js 16 · React 19 · Supabase (RLS) · Drizzle ORM · MCP · Gemini · TypeScript · Mem0 · Qdrant · FastAPI</div>
+        <div class="entry-tech">Next.js 16 · React 19 · PostgreSQL (RLS) · Drizzle ORM · MCP · TypeScript · Vector Search · FastAPI</div>
         <ul>
-          <li><strong>Project Nexus</strong> ([YOUR_PORTFOLIO].dev): multi-tenant appointment/queue SaaS with <strong>16 modules, 29 ADRs, 25 Playwright suites</strong>, deterministic booking <strong>state machine</strong> eliminating double-booking, calendar virtualization optimizing render performance, org-scoped RLS, PWA, <strong>Core Web Vitals</strong>, bilingual</li>
-          <li><strong>agy-orchestrator</strong>: open-source multi-model coding CLI with <strong>Planner → Coder → Quality Gate → Independent Reviewer</strong> and git-safety assertions</li>
-          <li><strong>Universal AI Brain</strong>: persistent AI-agent knowledge system with <strong>Notion ↔ Gemini via MCP</strong>, Supabase persistence, Axiom telemetry, FastAPI gateway (uv, Pydantic v2)</li>
-          <li><strong>CircularCommerce</strong>: B2B circular-IT commerce (React 19, Vite, <strong>Gemini 2.5 Flash API</strong>), 98+ Lighthouse</li>
-          <li><strong>Self-hosted AI-agent platform</strong>: Mem0 + embedded Qdrant, hardened systemd gateway (ARM64), multi-model orchestration, MCP wiring, EROFS incident fix + rollback runbook</li>
-          <li><strong>Autonomous Payroll &amp; Compliance Workflow Studio</strong> (<a href="https://github.com/[YOUR_GITHUB]/payroll-workflow-engine" target="_blank" style="color: #2563eb; text-decoration: none;">payroll-workflow-engine</a>): shipped <strong>LangGraph</strong> payroll-anomaly agent with <strong>validate_statutory → analyze_anomalies → human_approval_gate</strong> (real <strong>interrupt</strong> checkpoint), deterministic ESI/regime tools, <strong>20/20</strong> correctness eval suite; roadmap: <strong>React Flow</strong> DAG canvas → FastAPI (SSE) → Langfuse/DeepEval tracing</li>
+          <li><strong>Project Apollo</strong> ([YOUR_PORTFOLIO].dev): multi-tenant booking SaaS — <strong>N modules, M ADRs</strong>, unit and end-to-end suites, and a booking state machine that removes double-booking races.</li>
+          <li><strong>agent-orchestrator</strong>: open-source multi-model coding CLI with <strong>Planner → Coder → Quality Gate → Independent Reviewer</strong> and git-safety assertions between stages.</li>
+          <li><strong>Knowledge assistant</strong>: persistent project memory with <strong>MCP</strong> tool wiring, database persistence and a <strong>FastAPI</strong> gateway (typed models, schema validation).</li>
+          <li><strong>Commerce app</strong>: B2B ordering flow (React 19, Vite, <strong>LLM API</strong>) scoring 98+ on Lighthouse.</li>
+          <li><strong>Self-hosted agent platform</strong>: on-host vector memory, a hardened systemd gateway with resource quotas, multi-model orchestration, and an incident runbook written after a real outage.</li>
+          <li><strong>Workflow studio</strong>: agent graph with a <strong>human-approval interrupt</strong> at the one step that must not be autonomous, plus an eval suite that asserts the halt.</li>
         </ul>
       </div>
     </div>

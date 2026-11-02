@@ -8,7 +8,7 @@ career rules and DO-NOT-CLAIM directives in
 Enforces (hard failures):
   1. Canonical numbers (29 ADRs, 25 Playwright suites, 16 modules, 8 Acme modules, 42 OpenAPI endpoints, 10,000+ users).
   2. Superseded figures rejection (30 ADRs, 14 suites, 5-6 modules, etc.).
-  3. Hard exclusions (KeeLead, PCI-DSS certification claims, US work auth without sponsorship, IIT/NIT pedigree, Refurso 65%, Jira QN- keys).
+  3. Hard exclusions (KeeLead, PCI-DSS certification claims, US work auth without sponsorship, IIT/NIT pedigree, an unsourced vendor 65%, internal work-item keys).
   4. Scope rule for the platform-scale figures: SOT Section 1/7 allow the 500k/100k
      numbers as PLATFORM-level (dossier-sourced) but forbid presenting them as
      one product's own scope, so they fail only when no platform framing is present.
