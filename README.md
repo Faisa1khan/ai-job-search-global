@@ -88,6 +88,32 @@ The core workflow (self-profiling, fit evaluation, and the drafter-reviewer appl
 
 The framework encodes career guidance best practices, including structured evaluation criteria, forward-looking cover letter framing, and optional salary benchmarking.
 
+## Guard layer: the checks that stop a bad application before it is built
+
+The stock workflow reads postings and writes documents. These seven tools are the deterministic layer underneath it — they never score a job and never write prose, they only refuse to let an obvious defect through. Each is stdlib-or-node only, runs offline except where noted, and prints JSON.
+
+| Tool | Question it answers |
+|---|---|
+| `tools/ats_board_check.py` | Is this posting still live on the employer's own board? Reads Ashby, Greenhouse, Lever (US + EU), SmartRecruiters and Workday APIs directly and matches on the provider's own posting id. A 404 on Ashby's posting API is **not** an expiry verdict — some boards serve the page while the API 404s. |
+| `tools/liveness_check.py` | Does the posting page itself prove closure? 61 vendored patterns, normalised text, and it can only ever return `expired` or `uncertain` — never `live`. A false `expired` deletes a real job from every future scan. |
+| `tools/screen_jobs.py` | Does this candidate survive geography, title family, discipline and language? `--liveness` adds the closure pass above; `--liveness --apply` writes `status=skipped` / `status=expired` and nothing else. |
+| `tools/precheck_duplicate.py` | Have I already applied to this — and is a "no" actually a no? Four match tiers (url, requisition id, same title, similar title), and an unmatched lookup is recorded as *unknown*, never as an all-clear. |
+| `tools/jd_years.py` + `tools/jd_body.py` | Does the posting's stated years-of-experience floor exclude the candidate? Advisory: it annotates the row, it never filters. |
+| `tools/rank_flags.py` | Three triage flags beside the score — compensation, timezone overlap, years — reported, never weighted. |
+| `tools/posting_guard.py` | Is the posting text itself trustworthy before it is read as instructions? Flags prompt-injection shapes and returns the cleaned text. |
+
+Two forks need to set their own numbers here, so the defaults are deliberately neutral and no personal figure ships in this repo:
+
+```bash
+export JOBSEARCH_CANDIDATE_YEARS=6.8   # your own record, in years
+export JOBSEARCH_STRETCH_YEARS=1.2     # how far you will argue past it
+export JOBSEARCH_FLOOR_INR=1850000     # never-accept-below, in rupees
+export JOBSEARCH_ANCHOR_INR=2400000    # the anchor a band is compared against
+export JOBSEARCH_TARGET_HIGH_INR=2800000
+```
+
+With the compensation values unset, no band can read `BELOW_FLOOR` and every flag stays advisory — which is the correct behaviour for a clone that has not configured them.
+
 ## Quick start
 
 > 🎥 **Prefer to see it in action first?** [The Next New Thing did a hands-on walkthrough](https://www.youtube.com/watch?v=HoVxjMNFYv4) of how the workflow is actually used, from setup to a finished application (recorded August 2026 - commands may have evolved since).

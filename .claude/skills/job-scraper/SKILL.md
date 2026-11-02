@@ -149,6 +149,24 @@ For each new job, do a rapid fit check (NOT the full evaluation from `04-job-eva
 
 **Language override:** before assigning a match level, check the posting against `04-job-evaluation.md`'s Language Gate (a required language you haven't declared at all in your CLAUDE.md Languages table). A required language that's entirely undeclared overrides skill fit: mark it **Low** regardless of how well the skills align, and name it in the highlight bullets so it isn't buried under an otherwise-good-looking match. A **declared** language at a requirement that reads higher than your declared level is *not* an override — score fit normally, but add a red-flag bullet under that job's highlights (Step 5) quoting the posting's requirement next to your declared level, so the gap is visible without being auto-downgraded.
 
+### Step 3.5: Liveness screen (optional, network)
+
+A posting can be indexed and already dead. `tools/screen_jobs.py` spends one fetch per surviving
+`new` entry to decide whether the posting still exists:
+
+```bash
+python3 tools/screen_jobs.py --liveness           # report only, never writes
+python3 tools/screen_jobs.py --liveness --apply   # writes status=skipped / status=expired
+```
+
+It can only ever prove a posting **closed** - an HTTP 404/410, a redirect to an expired URL, or a
+closure banner whose own clause is not opened by *until / if / once*. Only that verdict becomes
+`status=expired`; every other outcome (`no_apply_control`, `insufficient_content`,
+`bot_challenge`, `fetch_failed`) keeps `new` and records its code on the entry. The asymmetry is
+deliberate and must not be relaxed: a false `expired` writes a real job out of every future scan,
+while a false `uncertain` costs one more look. Expect `no_apply_control` in bulk on rows whose
+board renders no Apply control to a text-only fetch - that is the normal case, never a drop.
+
 ### Step 4: Deduplicate & Store
 
 1. Keep the canonical key rule; `scrape_state.py store` calls `tools/job_key.py`'s `make_key` for every inserted entry, so a separate key subprocess per job is unnecessary:
