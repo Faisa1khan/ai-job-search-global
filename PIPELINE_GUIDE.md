@@ -84,7 +84,7 @@ All factual claims, numbers, and dates must strictly trace to [`CAREER_SOURCE_OF
   - **16 feature modules**.
   - **TTI 2.1s to 120ms** calendar virtualization.
 - **Acme Corp Scope & Platform:**
-  - **8 core HRMS modules** owned.
+  - **N core product modules** owned.
   - **N modules / M OpenAPI endpoints**, **your own measured user count** (your scope).
   - **28 Indian states** statutory compliance.
 - **Excluded Claims (Strictly Prohibited):**
