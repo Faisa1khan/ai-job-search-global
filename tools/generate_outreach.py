@@ -195,7 +195,7 @@ def build_eng_manager_email(
 I saw that {company} is looking for a {role} to work on {domain_pain}.
 
 Over the past 6.8 years, my focus has been on frontend architecture, state machine predictability, and client-side performance. Most recently:
-1. Multi-tenant SaaS (example.com): Built on Next.js 16 and React 19 from ground up. Documented 29 Architecture Decision Records (ADRs) and authored 25 Playwright end-to-end test suites covering all critical state workflows.
+1. Multi-tenant SaaS (example.com): Built on Next.js 16 and React 19 from ground up. Documented N Architecture Decision Records (ADRs) and authored 25 Playwright end-to-end test suites covering all critical state workflows.
 2. Enterprise Scale: Integrated N OpenAPI endpoints across cross-service boundaries and optimized complex data grids to virtualize 50,000+ cells with zero UI freezing.
 3. Quality & Reliability: Enforce strict TypeScript generics, deterministic state transitions, and automated regression testing.
 
@@ -226,7 +226,7 @@ def build_followup_email(
 
 I am following up on my application for the {role} role at {company} from last week.
 
-I remain very interested in the work your team is doing. If you would like to inspect my engineering standards or system design artifacts, you can review my live platform at {CANDIDATE['portfolio']} (featuring 29 documented ADRs and 25 Playwright suites) or my GitHub at {CANDIDATE['github']}.
+I remain very interested in the work your team is doing. If you would like to inspect my engineering standards or system design artifacts, you can review my live platform at {CANDIDATE['portfolio']} (featuring 29 documented ADRs and M test suites) or my GitHub at {CANDIDATE['github']}.
 
 Please let me know if there are any additional details or work samples I can provide.
 
