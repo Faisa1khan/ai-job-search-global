@@ -37,7 +37,7 @@
 >
 > This project has **no affiliated cryptocurrency, token, or paid sponsorship program**. Anything claiming otherwise is unauthorized and should be treated as a scam. The only ways to support the project are the Ko-fi link below and contributing on GitHub.
 
-## This fork: `Faisa1khan/ai-job-search-global`
+## This fork: `ai-job-search-global`
 
 This is a working fork, kept in step with upstream rather than frozen at one commit.
 
