@@ -96,7 +96,7 @@ class TestHumanizerRules(unittest.TestCase):
         lines = [
             (1, "Guided by 30 ADRs and 14 test suites."),
             (2, "Scaled own delivery to 500k employees."),
-            (3, "Fixed bug QN-4633 in production."),
+            (3, "Fixed bug TICKET-123 in production."),
         ]
         violations = check_humanizer(Path("test.html"), lines)
         self.assertEqual(len(violations), 4)  # 30 ADRs, 14 test suites, 500k, QN-4633

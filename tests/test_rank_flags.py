@@ -24,9 +24,9 @@ import sys
 
 # The ladder is neutral by default in this fork; these fixtures pin the reference
 # numbers the assertions below were written against.
-os.environ.setdefault("JOBSEARCH_FLOOR_INR", "1850000")
-os.environ.setdefault("JOBSEARCH_ANCHOR_INR", "2400000")
-os.environ.setdefault("JOBSEARCH_TARGET_HIGH_INR", "2800000")
+os.environ.setdefault("JOBSEARCH_FLOOR_INR", "900000")
+os.environ.setdefault("JOBSEARCH_ANCHOR_INR", "1200000")
+os.environ.setdefault("JOBSEARCH_TARGET_HIGH_INR", "1500000")
 import tempfile
 import unittest
 from pathlib import Path
@@ -82,26 +82,26 @@ class ParseBand(unittest.TestCase):
 
 class CompFlag(unittest.TestCase):
     def test_band_overlapping_the_target_is_ok(self):
-        r = rf.comp_flag(2_400_000, 2_800_000)
+        r = rf.comp_flag(1_200_000, 1_500_000)
         self.assertEqual(r["flag"], "OK")
 
     def test_band_below_the_never_accept_floor_is_flagged(self):
-        r = rf.comp_flag(1_200_000, 1_500_000)
+        r = rf.comp_flag(600_000, 850_000)
         self.assertEqual(r["flag"], "BELOW_FLOOR")
         self.assertIn("never accept below", r["reason"])
 
     def test_floor_beats_a_mismatch_verdict(self):
         """A band under the floor is the verdict even when the target is far above it."""
-        r = rf.comp_flag(1_200_000, 1_500_000, target=2_400_000)
+        r = rf.comp_flag(600_000, 850_000, target=1_200_000)
         self.assertEqual(r["flag"], "BELOW_FLOOR")
 
     def test_target_far_above_the_band_is_flagged_not_fatal(self):
-        r = rf.comp_flag(1_800_000, 2_200_000, target=3_000_000)
+        r = rf.comp_flag(900_000, 1_000_000, target=2_000_000)
         self.assertEqual(r["flag"], "MISMATCH_ABOVE")
         self.assertIn("do not exclude", r["reason"])
 
     def test_band_above_the_anchor_is_reported_as_strong_money(self):
-        r = rf.comp_flag(2_500_000, 3_500_000)
+        r = rf.comp_flag(2_000_000, 3_000_000)
         self.assertEqual(r["flag"], "MISMATCH_BELOW")
 
     def test_no_band_is_unknown_never_an_estimate(self):
@@ -159,11 +159,11 @@ class WarningLine(unittest.TestCase):
         unknown_comp = rf.comp_flag(None, None)
         unknown_tz = rf.tz_flag("Remote - Global. Competitive salary.")
         self.assertIsNone(rf.warning_line(unknown_comp, unknown_tz))
-        self.assertIsNone(rf.warning_line(rf.comp_flag(2_400_000, 2_800_000),
+        self.assertIsNone(rf.warning_line(rf.comp_flag(1_200_000, 1_500_000),
                                           rf.tz_flag("Working hours 10am-7pm IST.")))
 
     def test_below_floor_prints_the_pay_reason(self):
-        line = rf.warning_line(rf.comp_flag(1_200_000, 1_500_000), None)
+        line = rf.warning_line(rf.comp_flag(600_000, 850_000), None)
         self.assertIsNotNone(line)
         self.assertTrue(line.startswith("pay: "), line)
         self.assertIn("floor", line)
@@ -177,7 +177,7 @@ class WarningLine(unittest.TestCase):
         self.assertIn("ends after 22:00 IST", line)
 
     def test_both_warnings_are_joined_on_one_line(self):
-        line = rf.warning_line(rf.comp_flag(1_200_000, 1_500_000), rf.tz_flag("Working hours: 9am-6pm GMT."))
+        line = rf.warning_line(rf.comp_flag(600_000, 850_000), rf.tz_flag("Working hours: 9am-6pm GMT."))
         self.assertIn("pay: ", line)
         self.assertIn("hours: ", line)
         self.assertIn(" | ", line)
@@ -209,25 +209,25 @@ class YearsFlag(unittest.TestCase):
         self.assertEqual(r["flag"], "YEARS_IN")
         self.assertEqual(r["verdict"], "in")
         self.assertEqual(r["min"], 4)
-        self.assertIn("6.8", r["reason"])
+        self.assertEqual(r["candidate_years"], 5.0)
 
     def test_floor_above_the_record_is_out(self):
         r = rf.years_flag(self.OUT_JD)
         self.assertEqual(r["flag"], "YEARS_OUT")
         self.assertEqual(r["verdict"], "out")
         self.assertIn("never a drop", r["reason"])
-        self.assertEqual(r["candidate_years"], 6.8)
-        self.assertEqual(r["stretch_reaches"], 8.0)
+        self.assertEqual(r["candidate_years"], 5.0)
+        self.assertEqual(r["stretch_reaches"], 6.0)
 
     def test_an_eight_plus_bar_is_in_but_says_it_is_only_the_stretch(self):
         # the alphasense/aryaxai shape, measured on the archived postings: 8+ reads IN
-        # because the 1.2-stretch reaches 8.0, and the reason must not claim the 6.8-year
+        # because the 1.0-stretch reaches 6.0, and the reason must not claim the 5.0-year
         # record clears it.
-        r = rf.years_flag("Requirements: 8+ years of experience building production web applications.")
+        r = rf.years_flag("Requirements: 6+ years of experience building production web applications.")
         self.assertEqual(r["flag"], "YEARS_IN")
-        self.assertEqual(r["min"], 8)
+        self.assertEqual(r["min"], 6)
         self.assertIn("stretch", r["reason"])
-        self.assertNotIn("inside the 6.8 yr record", r["reason"])
+        self.assertNotIn("inside the 5.0 yr record", r["reason"])
 
     def test_no_stated_bar_is_unknown_not_out(self):
         r = rf.years_flag(self.NONE_JD)
@@ -272,7 +272,7 @@ class YearsFlag(unittest.TestCase):
         self.assertIsNone(rf.warning_line(None, None, rf.years_flag(self.NONE_JD)))
 
     def test_years_and_the_other_two_flags_join(self):
-        line = rf.warning_line(rf.comp_flag(1_200_000, 1_500_000),
+        line = rf.warning_line(rf.comp_flag(600_000, 850_000),
                                rf.tz_flag("Working hours: 9am-6pm GMT."),
                                rf.years_flag(self.OUT_JD))
         self.assertIn("pay: ", line)

@@ -85,7 +85,7 @@ All factual claims, numbers, and dates must strictly trace to [`CAREER_SOURCE_OF
   - **TTI 2.1s to 120ms** calendar virtualization.
 - **Acme Corp Scope & Platform:**
   - **8 core HRMS modules** owned.
-  - **4 modules / 42 OpenAPI endpoints**, **10,000+ active enterprise users** (MyPay scope).
+  - **N modules / M OpenAPI endpoints**, **your own measured user count** (your scope).
   - **28 Indian states** statutory compliance.
 - **Excluded Claims (Strictly Prohibited):**
   - **ZERO Jira ticket counts or QN keys** on CVs or cover letters.

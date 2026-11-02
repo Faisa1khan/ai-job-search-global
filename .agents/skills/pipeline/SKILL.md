@@ -53,7 +53,7 @@ Target output filenames:
 2. **Strict Factual Grounding (`CAREER_SOURCE_OF_TRUTH.md`):**
    - Project Nexus: **29 ADRs**, **25 Playwright test suites**, **16 feature modules** (never 30 or 14).
    - Acme: **8 core HRMS modules** owned.
-   - MyPay: **4 modules / 42 OpenAPI endpoints**, **10,000+ active enterprise users** (QN-4633).
+   - One integration surface: **N modules / M OpenAPI endpoints**, **your own measured user count** (TICKET-123).
    - **DO NOT CLAIM 500k/100k:** 500,000+ employees or 100k+ transactions are strictly forbidden (unauthenticated).
    - **DO NOT PRINT Jira counts:** Zero Jira ticket counts or QN keys printed on documents.
    - Notice period: **45 days**.

@@ -26,7 +26,7 @@ from doc_extract import (
     extract_prose_from_text,
     ExtractionError,
 )
-from verify_sot import SCALE_FIGURES, has_platform_framing
+from verify_sot import SCALE_FIGURES, has_platform_framing, _KEY_RE
 
 
 class HumanizerError(Exception):
@@ -39,7 +39,7 @@ class HumanizerError(Exception):
 SOT_PROHIBITED = [
     (r"\b30\s+ADRs?\b", "Superseded SOT figure: Project Nexus has 29 ADRs (never 30)"),
     (r"\b14\s+(?:test\s+)?suites?\b", "Superseded SOT figure: Project Nexus has 25 Playwright test suites (never 14)"),
-    (r"\bQN-\d+\b", "Prohibited internal key: Jira ticket QN- keys must not appear on public documents"),
+    (_KEY_RE, "Prohibited internal key: internal work-item keys must not appear on public documents"),
 ]
 
 

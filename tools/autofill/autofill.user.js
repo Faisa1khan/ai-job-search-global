@@ -4,6 +4,13 @@
 // @version      2.0.0
 // @description  Instantly auto-fills job application forms across LinkedIn, Workable, Ashby, Lever, Greenhouse, Recrew, Wellfound, BambooHR, SmartRecruiters, and YC with verified candidate data from Career Source of Truth.
 // @author       Alex Doe
+
+// ==UserScript== settings a fork must set (nothing personal ships here).
+// PHONE_CODE is the dialling prefix the form's country-code select expects
+// ("+1", "+44", "+49", ...) and COUNTRY is the value that select uses for your
+// country. Both are matched against the form's own options.
+const PHONE_CODE = "[[PHONE_CODE]]";
+const COUNTRY = "[[COUNTRY]]";
 // @match        https://*.linkedin.com/*
 // @match        https://*.workable.com/*
 // @match        https://apply.workable.com/*
@@ -425,9 +432,9 @@
       const key = `${label} ${(sel.id || "").toLowerCase()} ${(sel.name || "").toLowerCase()}`;
 
       if (key.includes("phone") || key.includes("code") || key.includes("country")) {
-        if (setSelectValue(sel, "+91") || setSelectValue(sel, "India") || setSelectValue(sel, "91")) {
+        if (setSelectValue(sel, PHONE_CODE) || setSelectValue(sel, COUNTRY) || setSelectValue(sel, "91")) {
           filledCount++;
-          filledFields.push("Phone Code (+91)");
+          filledFields.push("Phone Code (" + PHONE_CODE + ")");
         }
       } else if (key.includes("notice") || key.includes("availability") || key.includes("joining")) {
         if (setSelectValue(sel, "45") || setSelectValue(sel, "1 month") || setSelectValue(sel, "2 months") || setSelectValue(sel, "30-45")) {

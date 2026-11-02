@@ -112,6 +112,6 @@ Every package produced by the automated pipeline strictly satisfies all four ver
 2. **Humanizer & Tone Rules:** Zero banned AI words (*leverage*, *spearhead*, *align with*), zero em dashes in body prose, and natural conversational cadence.
 3. **Grounding SOT (Career Source of Truth):**
    - **Project Nexus:** 29 ADRs, 25 Playwright test suites, 16 modules.
-   - **Acme Corp:** 8 core HRMS modules, 42 OpenAPI endpoints, 10,000+ active enterprise users, 28 Indian states statutory compliance.
+   - **Acme Corp:** N core modules, M OpenAPI endpoints, your own measured user count, 28 Indian states statutory compliance.
    - **Status & Notice:** 45-day notice period, NO US work authorization claim.
 4. **Master Template Conformity:** Uses locked HTML/CSS structure from `cv/Resume_Master.html` and `cover_letters/Cover_Letter_Master.html`.

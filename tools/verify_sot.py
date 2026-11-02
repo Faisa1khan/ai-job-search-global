@@ -11,7 +11,7 @@ Enforces (hard failures):
   3. Hard exclusions (KeeLead, PCI-DSS certification claims, US work auth without sponsorship, IIT/NIT pedigree, Refurso 65%, Jira QN- keys).
   4. Scope rule for the platform-scale figures: SOT Section 1/7 allow the 500k/100k
      numbers as PLATFORM-level (dossier-sourced) but forbid presenting them as
-     MyPay's own scope, so they fail only when no platform framing is present.
+     one product's own scope, so they fail only when no platform framing is present.
 
 Reports as advisories, never failures (SOT marks them dossier-sourced, "use only
 if you can defend it"): TTI 2.1s -> 120ms, the 800ms freeze, the ~60% codebase
@@ -21,9 +21,19 @@ reduction, and the -40% payroll support ticket figure.
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sys
 from pathlib import Path
+
+# Internal work-item keys (Jira/Linear style) that must never reach a public
+# document. A fork sets its own prefixes; the defaults are deliberately generic.
+_KEY_PREFIXES = tuple(
+    p.strip().upper()
+    for p in os.environ.get("JOBSEARCH_INTERNAL_KEY_PREFIXES", "PROJ,TICKET,JIRA").split(",")
+    if p.strip()
+)
+_KEY_RE = r"\b(?:" + "|".join(_KEY_PREFIXES) + r")-\d+\b"
 
 from doc_extract import (
     extract_prose,
@@ -57,13 +67,13 @@ HARD_EXCLUSIONS = [
         "SOT Section 6 exclusion: PCI-DSS certification is not held (a workflow/discipline bridge is allowed)",
     ),
     (r"\b65%[^.]{0,20}UI\s+turnaround\b", "SOT Section 6 exclusion: Refurso '65% UI turnaround' has no source"),
-    (r"\bQN-\d+\b", "SOT Section 1 & 6 rule: Jira ticket keys (QN-*) must not appear on public application documents"),
+    (_KEY_RE, "SOT Section 1 & 6 rule: internal work-item keys must not appear on public application documents"),
     (r"\b(?:US\s+citizen|green\s+card|authorized\s+to\s+work\s+in\s+the\s+US\s+without\s+sponsorship)\b", "SOT Section 0 exclusion: US work authorization requires visa sponsorship; never claim US authorization without sponsorship"),
     (r"\b(?:IIT|NIT)\s+(?:graduate|alumnus|degree|pedigree)\b", "SOT Section 6 exclusion: Do not claim or imply IIT/NIT pedigree"),
 ]
 
 # Platform-scale figures: valid per SOT Section 1/7 as PLATFORM-level,
-# dossier-sourced facts; forbidden per Section 6 only as MyPay/own-scope claims.
+# dossier-sourced facts; forbidden per Section 6 only as own-scope claims.
 SCALE_FIGURES = [
     (
         r"\b(?:500[,.]?000\+|500k\+?)\s*(?:employees|users)\b",

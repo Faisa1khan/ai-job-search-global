@@ -14,15 +14,15 @@ import unittest
 from pathlib import Path
 
 # The tools are neutral by default; these fixtures pin the reference numbers.
-os.environ.setdefault("JOBSEARCH_CANDIDATE_YEARS", "6.8")
-os.environ.setdefault("JOBSEARCH_STRETCH_YEARS", "1.2")
+os.environ.setdefault("JOBSEARCH_CANDIDATE_YEARS", "5.0")
+os.environ.setdefault("JOBSEARCH_STRETCH_YEARS", "1.0")
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 from tools.jd_years import band_for_text, _node  # noqa: E402
 
 
-def band(text, years=6.8, stretch=1.2):
+def band(text, years=5.0, stretch=1.0):
     return band_for_text(text, years, stretch)
 
 
@@ -98,8 +98,8 @@ class TestNeverRaises(unittest.TestCase):
 
     def test_candidate_band_is_honest(self):
         from tools.jd_years import CANDIDATE_YEARS, STRETCH_YEARS
-        self.assertAlmostEqual(CANDIDATE_YEARS, 6.8)
-        self.assertLessEqual(CANDIDATE_YEARS + STRETCH_YEARS, 8.0,
+        self.assertAlmostEqual(CANDIDATE_YEARS, 5.0)
+        self.assertLessEqual(CANDIDATE_YEARS + STRETCH_YEARS, 6.0,
                              "stretch must not reach the 8-year floors he has missed on")
 
 

@@ -105,11 +105,11 @@ The stock workflow reads postings and writes documents. These seven tools are th
 Two forks need to set their own numbers here, so the defaults are deliberately neutral and no personal figure ships in this repo:
 
 ```bash
-export JOBSEARCH_CANDIDATE_YEARS=6.8   # your own record, in years
+export JOBSEARCH_CANDIDATE_YEARS=4.5   # your own record, in years
 export JOBSEARCH_STRETCH_YEARS=1.2     # how far you will argue past it
-export JOBSEARCH_FLOOR_INR=1850000     # never-accept-below, in rupees
-export JOBSEARCH_ANCHOR_INR=2400000    # the anchor a band is compared against
-export JOBSEARCH_TARGET_HIGH_INR=2800000
+export JOBSEARCH_FLOOR_INR=900000      # never-accept-below, in rupees
+export JOBSEARCH_ANCHOR_INR=1200000    # the anchor a band is compared against
+export JOBSEARCH_TARGET_HIGH_INR=1500000
 ```
 
 With the compensation values unset, no band can read `BELOW_FLOOR` and every flag stays advisory — which is the correct behaviour for a clone that has not configured them.

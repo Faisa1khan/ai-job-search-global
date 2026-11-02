@@ -70,7 +70,7 @@ class TestSOTRules(unittest.TestCase):
         lines = [
             (1, "Built KeeLead payment workflows."),
             (2, "Holds PCI-DSS certification."),
-            (3, "Resolved ticket QN-4633 in sprint 4."),
+            (3, "Resolved ticket TICKET-123 in sprint 4."),
             (4, "Claimed a US green card authorization."),
             (5, "Refurso's 65% UI turnaround."),
         ]
@@ -78,7 +78,7 @@ class TestSOTRules(unittest.TestCase):
         self.assertEqual(len(violations), 5)
         self.assertTrue(any("KeeLead" in v for v in violations))
         self.assertTrue(any("PCI-DSS" in v for v in violations))
-        self.assertTrue(any("QN-*" in v or "Jira" in v for v in violations))
+        self.assertTrue(any("work-item" in v for v in violations))
 
 
 if __name__ == "__main__":
