@@ -78,17 +78,15 @@ The pipeline relies on `tools/pipeline.py` for deterministic operations:
 ### A. Grounding Single Source of Truth (FACTS)
 All factual claims, numbers, and dates must strictly trace to [`CAREER_SOURCE_OF_TRUTH.md`](file://CAREER_SOURCE_OF_TRUTH.md).
 
-- **Project Nexus Metrics:**
-  - **29 ADRs** (never 30 — superseded).
-  - **25 Playwright test suites** (never 14 — superseded).
-  - **16 feature modules**.
-  - **TTI 2.1s to 120ms** calendar virtualization.
+- **Project metrics (fill from your ledger):**
+  - **N ADRs**, **M test suites**, **K feature modules** — one number per row, superseded values rejected.
+  - Any performance figure only with its measurement method attached.
 - **Acme Corp Scope & Platform:**
   - **N core product modules** owned.
   - **N modules / M OpenAPI endpoints**, **your own measured user count** (your scope).
-  - **28 Indian states** statutory compliance.
+  - **N jurisdictions** statutory compliance.
 - **Excluded Claims (Strictly Prohibited):**
-  - **ZERO Jira ticket counts or QN keys** on CVs or cover letters.
+  - **ZERO work-item counts or internal keys** on CVs or cover letters.
   - **NEVER claim US work authorization** (requires visa sponsorship).
   - **Notice period is your own**.
 

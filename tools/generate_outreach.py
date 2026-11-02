@@ -117,7 +117,7 @@ def build_linkedin_connection_note(
     # Candidate variation B: tighter conciseness
     note_b = (
         f"{greeting} Applied for {role} at {company}. I bring 6.8y in {focus_tech}, "
-        f"42 OpenAPI endpoints, and 25 Playwright suites. Would love to connect. "
+        f"your measured integration and test figures. Would love to connect. "
         f"Details at example.com."
     )
     if len(note_b) <= 300:
@@ -196,7 +196,7 @@ I saw that {company} is looking for a {role} to work on {domain_pain}.
 
 Over the past 6.8 years, my focus has been on frontend architecture, state machine predictability, and client-side performance. Most recently:
 1. Project Nexus (example.com): Built a multi-tenant SaaS on Next.js 16 and React 19 from ground up. Documented 29 Architecture Decision Records (ADRs) and authored 25 Playwright end-to-end test suites covering all critical state workflows.
-2. Enterprise Scale: Integrated 42 OpenAPI endpoints across cross-service boundaries and optimized complex data grids to virtualize 50,000+ cells with zero UI freezing.
+2. Enterprise Scale: Integrated N OpenAPI endpoints across cross-service boundaries and optimized complex data grids to virtualize 50,000+ cells with zero UI freezing.
 3. Quality & Reliability: Enforce strict TypeScript generics, deterministic state transitions, and automated regression testing.
 
 I would love to learn more about the technical challenges your engineering team is solving at {company} and see if my background can help accelerate your roadmap.

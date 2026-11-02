@@ -51,11 +51,11 @@ Target output filenames:
 #### Canonical Rules (STRICT):
 1. **Design System:** Use canonical templates `cv/Resume_Master.html` and `cover_letters/Cover_Letter_Master.html`. Never switch fonts, margins, or CSS structure.
 2. **Strict Factual Grounding (`CAREER_SOURCE_OF_TRUTH.md`):**
-   - Project Nexus: **29 ADRs**, **25 Playwright test suites**, **16 feature modules** (never 30 or 14).
+   - Your project: **N ADRs**, **M test suites**, **K feature modules** — one figure per row, from your ledger.
    - Acme: **N core product modules** owned.
    - One integration surface: **N modules / M OpenAPI endpoints**, **your own measured user count** (TICKET-123).
    - **DO NOT CLAIM 500k/100k:** 500,000+ employees or 100k+ transactions are strictly forbidden (unauthenticated).
-   - **DO NOT PRINT Jira counts:** Zero Jira ticket counts or QN keys printed on documents.
+   - **DO NOT PRINT work-item counts:** zero ticket counts or internal keys on documents.
    - Notice period: **your own notice period**.
    - AI Tooling: Reference **Claude Code** by name.
    - Work Authorization: Never claim US work authorization.

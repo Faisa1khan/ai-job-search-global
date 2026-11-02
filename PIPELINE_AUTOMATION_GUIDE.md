@@ -34,7 +34,7 @@ flowchart TD
         ChromeR --> V1["1. verify_pdf.py (Exact 1-Page)"]
         ChromeR --> V2["2. verify_layout.py (Density & Bottom Space <= 75pt)"]
         ChromeC --> V3["3. verify_humanizer.py (No AI Tells, Mentions Claude Code)"]
-        ChromeR --> V4["4. verify_sot.py (29 ADRs, 25 Playwright, 42 OpenAPI)"]
+        ChromeR --> V4["4. verify_sot.py (figures must match your ledger)"]
         
         V2 -- "Minor Spacing Gap" --> AutoHeal["Auto-Healing Engine<br>(Dynamic Margin/Font Calibration)"] --> ChromeR
     end
@@ -111,7 +111,7 @@ Every package produced by the automated pipeline strictly satisfies all four ver
 1. **1-Page Physical Geometry:** Single page with balanced density (bottom whitespace $\le 75\text{pt}$ / $\approx 9.5\%$).
 2. **Humanizer & Tone Rules:** Zero banned AI words (*leverage*, *spearhead*, *align with*), zero em dashes in body prose, and natural conversational cadence.
 3. **Grounding SOT (Career Source of Truth):**
-   - **Project Nexus:** 29 ADRs, 25 Playwright test suites, 16 modules.
-   - **Acme Corp:** N core modules, M OpenAPI endpoints, your own measured user count, 28 Indian states statutory compliance.
-   - **Status & Notice:** 45-day notice period, NO US work authorization claim.
+   - **Your project:** N ADRs, M test suites, K modules, from your ledger.
+   - **Your employer scope:** N core modules, M OpenAPI endpoints, your own measured user count, N jurisdictions.
+   - **Status & Notice:** your notice period, NO work-authorization claim you cannot support.
 4. **Master Template Conformity:** Uses locked HTML/CSS structure from `cv/Resume_Master.html` and `cover_letters/Cover_Letter_Master.html`.

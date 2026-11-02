@@ -327,7 +327,7 @@ const COUNTRY = "[[COUNTRY]]";
         const val = field.type === "number" ? PROFILE.noticePeriodDays : PROFILE.noticePeriodText;
         if (setNativeValue(field, val)) {
           filledCount++;
-          filledFields.push("Notice Period (45d)");
+          filledFields.push("Notice Period");
         }
       }
       // Expected CTC / Salary / Compensation
