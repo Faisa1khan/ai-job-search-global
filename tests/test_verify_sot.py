@@ -9,7 +9,7 @@ from tools.verify_sot import check_sot_grounding, verify_sot
 class TestSOTRules(unittest.TestCase):
     def test_canonical_numbers_pass(self):
         lines = [
-            (1, "Project Nexus: 29 ADRs, 25 Playwright test suites, and 16 feature modules."),
+            (1, "Project X: 29 ADRs, 25 Playwright test suites, and 16 feature modules."),
             (2, "Acme: delivered across N core modules, serving a platform-scale user base."),
             (3, "Integrated 42 OpenAPI endpoints against external payroll gateway."),
         ]

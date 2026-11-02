@@ -108,7 +108,7 @@ def build_linkedin_connection_note(
     # Candidate variation A: direct applicant hook
     note_a = (
         f"{greeting} I applied for the {role} role. I bring 6.8y building high-performance "
-        f"frontend systems ({focus_tech}, 29 ADRs, 25 Playwright suites). Would love to connect "
+        f"frontend systems ({focus_tech}, measured architecture and test figures). Would love to connect "
         f"and share my work at example.com."
     )
     if len(note_a) <= 300:
@@ -155,7 +155,7 @@ I recently submitted my application for the {role} position at {company} and wan
 
 Key qualifications from my 6.8 years in frontend engineering:
 - Architecture & Scale: Shipped N core modules and M OpenAPI endpoints serving your own measured user count at Acme. Engineered virtualized interfaces rendering 50,000+ data cells with sub-150ms response times.
-- Modern Web Stack: Built Project Nexus (example.com), a multi-tenant SaaS with Next.js 16, React 19, TypeScript, and Tailwind CSS, backed by 29 Architecture Decision Records (ADRs) and 25 Playwright test suites.
+- Modern Web Stack: Built a multi-tenant SaaS (example.com) with Next.js 16, React 19, TypeScript, and Tailwind CSS, backed by 29 Architecture Decision Records (ADRs) and 25 Playwright test suites.
 - Tech Overlap: Hands-on depth across {tech_overlap}.
 - Logistics: Based in [YOUR_CITY] (open to Remote / Hybrid), notice period is [YOUR_NOTICE_PERIOD].
 
@@ -195,7 +195,7 @@ def build_eng_manager_email(
 I saw that {company} is looking for a {role} to work on {domain_pain}.
 
 Over the past 6.8 years, my focus has been on frontend architecture, state machine predictability, and client-side performance. Most recently:
-1. Project Nexus (example.com): Built a multi-tenant SaaS on Next.js 16 and React 19 from ground up. Documented 29 Architecture Decision Records (ADRs) and authored 25 Playwright end-to-end test suites covering all critical state workflows.
+1. Multi-tenant SaaS (example.com): Built on Next.js 16 and React 19 from ground up. Documented 29 Architecture Decision Records (ADRs) and authored 25 Playwright end-to-end test suites covering all critical state workflows.
 2. Enterprise Scale: Integrated N OpenAPI endpoints across cross-service boundaries and optimized complex data grids to virtualize 50,000+ cells with zero UI freezing.
 3. Quality & Reliability: Enforce strict TypeScript generics, deterministic state transitions, and automated regression testing.
 

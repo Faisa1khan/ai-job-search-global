@@ -511,7 +511,7 @@ def build_cover_letter_html(candidate: Dict[str, Any], research: Dict[str, Any])
     )
     html = html.replace(
         "<li><strong>[SKILL AREA 3]:</strong> [tailor to a third posting requirement].</li>",
-        f"<li><strong>{s3}:</strong> Shipped production Gemini AI workflows and full automated testing (25 Playwright suites, 29 ADRs) for zero-regression delivery.</li>",
+        f"<li><strong>{s3}:</strong> Shipped production AI workflows and full automated testing (measured suites and ADR counts) for zero-regression delivery.</li>",
     )
 
     return html

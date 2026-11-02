@@ -37,7 +37,7 @@ class HumanizerError(Exception):
 # (platform-scale figures are handled by SCALE_FIGURES below: SOT Section 1/7
 # allow them when framed as platform-level, Section 6 forbids own-scope use.)
 SOT_PROHIBITED = [
-    (r"\b30\s+ADRs?\b", "Superseded SOT figure: Project Nexus has 29 ADRs (never 30)"),
+    (r"\b30\s+ADRs?\b", "Superseded ledger figure: the ADR count was replaced (never the older 30)"),
     (r"\b14\s+(?:test\s+)?suites?\b", "Superseded SOT figure: Project Nexus has 25 Playwright test suites (never 14)"),
     (_KEY_RE, "Prohibited internal key: internal work-item keys must not appear on public documents"),
 ]
