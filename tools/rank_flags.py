@@ -83,8 +83,8 @@ def parse_band(text):
     """Pull an INR band out of posting text.
 
     Recognises, in order of specificity:
-      "₹24-28 LPA" / "24 to 28 LPA" / "₹18.5 LPA"        (LPA unit)
-      "₹18,00,000 - ₹26,00,000" / "1800000-2600000"      (absolute)
+      "₹20-24 LPA" / "20 to 24 LPA" / "₹18 LPA"          (LPA unit)
+      "₹18,00,000 - ₹24,00,000" / "1800000-2400000"      (absolute)
     Returns (low, high, currency, raw) - low/high None when nothing was stated.
     A non-INR symbol short-circuits to currency-only so no conversion is faked.
     """

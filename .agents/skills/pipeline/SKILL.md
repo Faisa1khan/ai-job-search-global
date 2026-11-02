@@ -142,4 +142,4 @@ Present the user with:
 - Target company, role, location, and fit score.
 - Direct clickable links to the compiled PDFs, source HTML files, and archived `job_posting.md`.
 - Grounded highlights tailored for the role (strictly humanized, free of em dashes and AI fluff).
-- Tailored application screening question answers and compensation/notice period details (45 days, ₹25–32 LPA target ₹28 LPA).
+- Tailored application screening question answers and compensation/notice period details (your own notice period and compensation band).
